@@ -1,0 +1,16 @@
+{
+  "extends": "../tsconfig.json",
+  "compilerOptions": {
+    "outDir": "../out-tsc/app",
+    "types": []
+  },
+  "include": [
+    "**/*.ts",
+    "../projects/ni-soft-lib/src/**/*.ts"
+  ],
+  "exclude": [
+    "test.ts",
+    "**/*.spec.ts",
+    "../projects/ni-soft-lib/src/**/*.spec.ts"
+  ]
+}
