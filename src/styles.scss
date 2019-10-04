@@ -35,8 +35,9 @@ body {
   height: 100vh;
   font-family: 'Roboto', sans-serif;
   background:red;
-    background-image: url("./assets/background2.jpg");
-background-size:cover;
+  background-image: url("./assets/background2.jpg");
+  background-size:cover;
+  overflow: hidden;
 }
 input{
   font-family: 'Open Sans', sans-serif;
@@ -97,4 +98,13 @@ button:focus {
 
 button:active {
   transform: scale(0.99);
+}
+
+.content__none{
+  color:white;
+}
+
+.content__shortcut-label{
+  color: gray;
+  font-weight: bold;
 }
