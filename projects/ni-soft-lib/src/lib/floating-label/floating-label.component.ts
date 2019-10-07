@@ -1,7 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 
 @Component({
-  selector: 'nsl-floating-label',
+  selector: 'nisl-floating-label',
   templateUrl: './floating-label.component.html',
   styleUrls: ['./floating-label.component.css']
 })

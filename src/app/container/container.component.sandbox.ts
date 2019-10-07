@@ -1,7 +1,13 @@
-import { sandboxOf } from 'angular-playground';
+import { sandboxOf, SandboxOfConfig } from 'angular-playground';
 import { ContainerComponent } from './container.component';
+import { FormsModule } from '@angular/forms';
 
-export default sandboxOf(ContainerComponent)
+const config: SandboxOfConfig = {
+  imports: [FormsModule]
+};
+
+
+export default sandboxOf(ContainerComponent, config)
   .add('default', {
-    template: `<nsi-container></nsi-container>`
+    template: `<nis-container></nis-container>`
   });

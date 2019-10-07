@@ -1,19 +1,26 @@
-<form>
+<form #f="ngForm" (ngSubmit)="submit()" novalidate>
   <div>
     <label for="name">Nombre</label>
-    <input type="text" />
+    <input type="text" name="name" required [(ngModel)]="name"
+    #tname="ngModel" autocomplete="off"/>
   </div>
 
   <div>
     <label for="firstName">Apellido</label>
-    <input type="text" />
+    <input type="text" name="lastName"
+           [(ngModel)]="lastName" required
+           autocomplete="off"/>
   </div>
 
   <div>
     <label for="dateBirth">Fecha Nacimento</label>
-    <input type="date" />
+    <input type="date" name="birthDay" [(ngModel)]="brithDay"/>
   </div>
 
   <button type="submit">Save</button>
   <button type="reset">Cancel</button>
 </form>
+
+<p>{{f.value | json}}</p>
+<p>{{f.valid | json}}</p>
+{{name}}
