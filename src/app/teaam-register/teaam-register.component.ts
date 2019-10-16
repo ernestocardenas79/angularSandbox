@@ -9,9 +9,7 @@ import { FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms'
 export class TeaamRegisterComponent implements OnInit {
 
   teamForm: FormGroup;
-  constructor(private fb: FormBuilder) {
-
-  }
+  constructor(private fb: FormBuilder) {}
 
   ngOnInit() {
     this.teamForm = this.fb.group({
@@ -19,7 +17,7 @@ export class TeaamRegisterComponent implements OnInit {
     });
   }
 
-  Save(){
+  Save() {
     console.log(this.teamForm.pristine && !this.teamForm.valid);
   }
 }

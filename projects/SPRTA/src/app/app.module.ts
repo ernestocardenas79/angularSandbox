@@ -4,17 +4,22 @@ import { NgModule } from '@angular/core';
 import { AppComponent } from './app.component';
 import { SharedModule } from './shared/shared.module';
 import { ModuleWithProviders } from '@angular/compiler/src/core';
+import { GameScheduleComponent } from './game-schedule/game-schedule.component';
+import { NiSoftLibModule } from 'projects/ni-soft-lib/src/public-api';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    GameScheduleComponent
   ],
   imports: [
     BrowserModule,
-    SharedModule
+    SharedModule,
+    NiSoftLibModule
   ],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  exports: [GameScheduleComponent]
 })
 export class AppModule { }
 

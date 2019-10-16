@@ -10,6 +10,10 @@ export class FloatingLabelComponent implements OnInit {
   @Input()
   type;
 
+  @Input()
+  label: string;
+
+
   constructor() { }
 
   ngOnInit() {

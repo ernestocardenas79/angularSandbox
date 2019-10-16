@@ -1,0 +1,35 @@
+:host{
+  display: block;
+  background: #A5B0A6;
+  margin-left:auto;
+  margin-right: auto;
+  box-shadow: inset 0px 1px 25px 0 #000, inset 0 2px 15px 0px #ccc ,inset 0 3px 5px 0px #fff;
+}
+form{
+  padding: 5px;
+}
+
+div{
+  margin: 10px 0;
+}
+
+label{
+  display: inline-block;
+  width:30%;
+  margin: 3px 5px;
+  padding-right:10px;
+  text-align: right;
+}
+
+input{
+  display: inline-block;
+  width:65%
+}
+
+button{
+  margin:10px 7px;
+}
+
+button[type="submit"]{
+  margin-left: 32%;
+}
