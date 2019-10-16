@@ -1,4 +1,4 @@
-import { sandboxOf, ScenarioConfig, SandboxOfConfig } from 'angular-playground';
+import { sandboxOf } from 'angular-playground';
 import { ScoreCounterComponent } from './score-counter.component';
 
 const style = `

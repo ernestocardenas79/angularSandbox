@@ -1,9 +1,9 @@
 <form [formGroup]="teamForm" (ngSubmit)="Save()">
   <div>
     <label for="name">Nombre</label>
-    <input type="text" formControlName="name"
-    />
+    <input type="text" formControlName="name" />
   </div>
+  <nisl-slider></nisl-slider>
 
   <button type="submit" [disabled]="teamForm.invalid">Save</button>
   <button type="reset">Cancel</button>
@@ -13,4 +13,3 @@
 <p>{{teamForm.dirty | json}}</p>
 <p>Invalid {{teamForm.invalid | json}}</p>
 <p>Disabled {{teamForm.invalid | json}}</p>
-

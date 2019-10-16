@@ -1,4 +1,4 @@
-import { Directive } from '@angular/core';
+import { Directive, forwardRef } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 
 // const CUSTOM_VALUE_ACCESSOR = new ClassProvider(
@@ -7,14 +7,16 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 
 @Directive({
   selector: 'nisl-floating-label',
-  // providers: [CUSTOM_VALUE_ACCESSOR]
+  providers: [{
+    provide: NG_VALUE_ACCESSOR,
+    useExisting: forwardRef(() => FloatingLabelDirective),
+    multi: true
+  }]
 })
-export class FloatingLabelDirective implements ControlValueAccessor  {
+export class FloatingLabelDirective implements ControlValueAccessor {
 
-
-
-  onChange = (_) => {};
-  onTouched = () => {};
+  onChange = (_) => { };
+  onTouched = () => { };
 
   writeValue(obj: any): void {
 
