@@ -20,10 +20,7 @@
     ],
     "paths": {
       "ni-soft-lib": [
-        "dist/ni-soft-lib"
-      ],
-      "ni-soft-lib/*": [
-        "dist/ni-soft-lib/*"
+        "projects/ni-soft-lib/src/public-api.ts"
       ]
     }
   },

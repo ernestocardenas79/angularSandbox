@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { SliderComponent } from '../../../projects/ni-soft-lib/src/lib/slider/slider.component';
+
 
 @Component({
   selector: 'nis-teaam-register',

@@ -6,9 +6,7 @@ import { SliderModule } from './slider/slider.module';
 
 @NgModule({
   declarations: [FloatingLabelComponent, FloatingLabelDirective, ScoreCounterComponent],
-  imports: [
-    SliderModule
-  ],
-  exports: [FloatingLabelComponent, SliderModule]
+  imports: [],
+  exports: [FloatingLabelComponent]
 })
 export class NiSoftLibModule { }

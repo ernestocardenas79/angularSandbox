@@ -129,7 +129,7 @@
       "projectType": "library",
       "root": "projects/ni-soft-lib",
       "sourceRoot": "projects/ni-soft-lib/src",
-      "prefix": "nsl",
+      "prefix": "nisl",
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-ng-packagr:build",
