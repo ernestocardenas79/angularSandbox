@@ -358,7 +358,8 @@
               "projects/ingresosEgresos/src/assets"
             ],
             "styles": [
-              "projects/ingresosEgresos/src/styles.scss"
+              "projects/ingresosEgresos/src/styles.scss",
+              "node_modules/bootstrap/dist/css/bootstrap.min.css"
             ],
             "scripts": []
           },
@@ -414,5 +415,5 @@
       }
     }
   },
-  "defaultProject": "SPRTA"
+  "defaultProject": "ingresosEgresos"
 }
