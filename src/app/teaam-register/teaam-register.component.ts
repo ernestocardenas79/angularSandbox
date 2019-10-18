@@ -15,7 +15,8 @@ export class TeaamRegisterComponent implements OnInit {
 
   ngOnInit() {
     this.teamForm = this.fb.group({
-      name: ['', Validators.required]
+      name: ['', Validators.required],
+      selected: true
     });
   }
 

@@ -1,21 +1,22 @@
 <form #f="ngForm" (ngSubmit)="submit()" novalidate>
   <div>
     <label for="name">Nombre</label>
-    <input type="text" name="name" required [(ngModel)]="name"
-    #tname="ngModel" autocomplete="off"/>
+    <input type="text" name="name" required [(ngModel)]="name" #tname="ngModel" autocomplete="off" />
   </div>
 
   <div>
     <label for="firstName">Apellido</label>
-    <input type="text" name="lastName"
-           [(ngModel)]="lastName" required
-           autocomplete="off"/>
+    <input type="text" name="lastName" [(ngModel)]="lastName" required autocomplete="off" />
   </div>
 
   <div>
     <label for="dateBirth">Fecha Nacimento</label>
-    <input type="date" name="birthDay" [(ngModel)]="brithDay"/>
+    <input type="date" name="birthDay" [(ngModel)]="brithDay" />
   </div>
+  <div>
+    <nisl-slider name="selected" [(ngModel)]="selected"></nisl-slider>
+  </div>
+
 
   <button type="submit" [disabled]="f.invalid">Save</button>
   <button type="reset">Cancel</button>
