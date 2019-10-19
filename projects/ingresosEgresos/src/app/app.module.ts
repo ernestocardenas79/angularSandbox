@@ -16,6 +16,10 @@ import { NavbarComponent } from './share/navbar/navbar.component';
 import { SidebarComponent } from './share/sidebar/sidebar.component';
 
 @NgModule({
+  imports: [
+    AppRoutingModule,
+    BrowserModule
+  ],
   declarations: [
     AppComponent,
     LoginComponent,
@@ -27,10 +31,6 @@ import { SidebarComponent } from './share/sidebar/sidebar.component';
     FooterComponent,
     NavbarComponent,
     SidebarComponent
-  ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule
   ],
   providers: [],
   bootstrap: [AppComponent]
