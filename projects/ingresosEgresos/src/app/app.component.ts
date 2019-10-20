@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { AuthService } from './auth/auth.service';
 
 @Component({
   selector: 'fhu-root',
@@ -9,6 +10,14 @@ import { Component } from '@angular/core';
   `,
   styles: []
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
   title = 'ingresosEgresos';
+
+  constructor(private authService:AuthService){
+
+  }
+
+  ngOnInit(){
+    this.authService.initAuthListener();
+  }
 }
