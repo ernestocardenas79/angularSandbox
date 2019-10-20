@@ -1,30 +1,55 @@
-import { Injectable } from "@angular/core";
-import { AngularFireAuth } from "@angular/fire/auth";
-import { Router } from "@angular/router";
+import { Injectable } from '@angular/core';
+import { AngularFireAuth } from '@angular/fire/auth';
+import { Router } from '@angular/router';
 
-import * as firebase from "firebase";
-import { AngularFirestore } from "@angular/fire/firestore";
+import * as firebase from 'firebase';
+import { AngularFirestore } from '@angular/fire/firestore';
 
-import Swal from "sweetalert2";
+import Swal from 'sweetalert2';
 
-import { map } from "rxjs/operators";
-import { User } from "./user.model";
+import { map } from 'rxjs/operators';
+import { User } from './user.model';
+import { AppState } from '../app.reducer';
+import { Store } from '@ngrx/store';
+import { SetUserAction } from './auth.action';
+import {
+  ActivarLoadingAction,
+  DesactivarLoadingAction
+} from '../share/ui.actions';
+import { Subscription } from 'rxjs';
 
 @Injectable({
-  providedIn: "root"
+  providedIn: 'root'
 })
 export class AuthService {
+  private userSubcrption: Subscription = new Subscription();
+
   constructor(
     private angularfireAuth: AngularFireAuth,
     private router: Router,
-    private angularFireDB: AngularFirestore
+    private angularFireDB: AngularFirestore,
+    private store: Store<AppState>
   ) {}
 
   initAuthListener() {
-    this.angularfireAuth.authState.subscribe((fbUser: firebase.User) => {});
+    this.angularfireAuth.authState.subscribe((fbUser: firebase.User) => {
+      if (fbUser) {
+        this.userSubcrption = this.angularFireDB
+          .doc(`${fbUser.uid}/usuario`)
+          .valueChanges()
+          .subscribe((usuarioObj: any) => {
+            const newUser = new User(usuarioObj);
+            this.store.dispatch(new SetUserAction(newUser));
+          });
+      } else {
+        this.userSubcrption.unsubscribe();
+      }
+    });
   }
 
   crearUsurio(nombre: string, email: string, password: string) {
+    this.store.dispatch(new ActivarLoadingAction());
+
     this.angularfireAuth.auth
       .createUserWithEmailAndPassword(email, password)
       .then(resp => {
@@ -37,28 +62,36 @@ export class AuthService {
         this.angularFireDB
           .doc(`${user.uid}/usuario`)
           .set(user)
-          .then(() => this.router.navigate(["/"]));
+          .then(() => {
+            this.router.navigate(['/']);
+            this.store.dispatch(new DesactivarLoadingAction());
+          });
       })
       .catch(error => {
-        Swal.fire("Error al crear usuario", error.message, "error");
+        Swal.fire('Error al crear usuario', error.message, 'error');
+        this.store.dispatch(new DesactivarLoadingAction());
       });
   }
 
   login(email: string, password: string) {
+    this.store.dispatch(new ActivarLoadingAction());
+
     this.angularfireAuth.auth
       .signInWithEmailAndPassword(email, password)
       .then(() => {
-        console.log("ruteando");
-        this.router.navigate(["/"]);
+        console.log('ruteando');
+        this.router.navigate(['/']);
+        this.store.dispatch(new DesactivarLoadingAction());
       })
       .catch(error => {
-        console.log("error");
-        Swal.fire("Error en el login", error.message, "error");
+        console.log('error');
+        Swal.fire('Error en el login', error.message, 'error');
+        this.store.dispatch(new DesactivarLoadingAction());
       });
   }
 
   logout() {
-    this.router.navigate(["/login"]);
+    this.router.navigate(['/login']);
     this.angularfireAuth.auth.signOut();
   }
 
@@ -66,7 +99,7 @@ export class AuthService {
     return this.angularfireAuth.authState.pipe(
       map(fbUser => {
         if (fbUser == null) {
-          this.router.navigate(["/login"]);
+          this.router.navigate(['/login']);
         }
         return fbUser != null;
       })
