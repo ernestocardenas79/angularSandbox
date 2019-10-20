@@ -10,13 +10,14 @@ export class ContainerComponent implements OnInit {
   name: string;
   lastName: string;
   brithDay: Date;
+  selected: boolean;
   constructor() { }
 
   ngOnInit() {
 
   }
 
-  submit(){
+  submit() {
     console.log('adasd');
   }
 }
