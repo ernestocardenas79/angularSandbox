@@ -6,8 +6,14 @@
   <nisl-slider formControlName="selected"></nisl-slider>
 
   <button type="submit" [disabled]="teamForm.invalid || teamForm.controls.selected.value">Save</button>
+
+  <input type="radio" name="categoria" formControlName="categoria" value="femenil"> femenil
+  <input type="radio" name="categoria" formControlName="categoria" value="masculino"> masculino
+
   <button type="reset">Cancel</button>
 </form>
+
+<button (click)="llena()"></button>
 <p>{{teamForm.value | json}}</p>
 <p>{{teamForm.touched | json}}</p>
 <p>{{teamForm.dirty | json}}</p>
