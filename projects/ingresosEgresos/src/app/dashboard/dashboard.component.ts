@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { IngresoEgresoService } from '../ingreso-egreso/ingreso-egreso.service';
 
 @Component({
   selector: 'fhu-dashboard',
@@ -6,10 +7,9 @@ import { Component, OnInit } from '@angular/core';
   styles: []
 })
 export class DashboardComponent implements OnInit {
-
-  constructor() { }
+  constructor(private ingresoEgresoService: IngresoEgresoService) {}
 
   ngOnInit() {
+    this.ingresoEgresoService.initIngresoEgresoListener();
   }
-
 }

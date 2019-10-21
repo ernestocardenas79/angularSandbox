@@ -3,7 +3,6 @@ import { NgModule } from '@angular/core';
 
 import { AppRoutingModule } from './app-routing.module';
 
-
 import { AppComponent } from './app.component';
 import { LoginComponent } from './auth/login/login.component';
 import { RegisterComponent } from './auth/register/register.component';
@@ -14,15 +13,15 @@ import { DetalleComponent } from './ingreso-egreso/detalle/detalle.component';
 import { FooterComponent } from './share/footer/footer.component';
 import { NavbarComponent } from './share/navbar/navbar.component';
 import { SidebarComponent } from './share/sidebar/sidebar.component';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AngularFireModule } from '@angular/fire';
-import { AngularFirestoreModule} from '@angular/fire/firestore';
-import { AngularFireAuthModule} from '@angular/fire/auth';
+import { AngularFirestoreModule } from '@angular/fire/firestore';
+import { AngularFireAuthModule } from '@angular/fire/auth';
 import { environment } from '../environments/environment';
 import { StoreModule } from '@ngrx/store';
 import { AppReducer } from './app.reducer';
-import {StoreDevtoolsModule} from '@ngrx/store-devtools'
-
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+import { OrdenIngresoEgresoPipe } from './ingreso-egreso/orden-ingreso-egreso.pipe';
 
 @NgModule({
   imports: [
@@ -35,8 +34,9 @@ import {StoreDevtoolsModule} from '@ngrx/store-devtools'
     StoreModule.forRoot(AppReducer),
     StoreDevtoolsModule.instrument({
       maxAge: 25, // Retains last 25 states
-      logOnly: environment.production, // Restrict extension to log-only mode
-    })
+      logOnly: environment.production // Restrict extension to log-only mode
+    }),
+    ReactiveFormsModule
   ],
   declarations: [
     AppComponent,
@@ -48,10 +48,10 @@ import {StoreDevtoolsModule} from '@ngrx/store-devtools'
     DetalleComponent,
     FooterComponent,
     NavbarComponent,
-    SidebarComponent
-
+    SidebarComponent,
+    OrdenIngresoEgresoPipe
   ],
   providers: [],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {}
