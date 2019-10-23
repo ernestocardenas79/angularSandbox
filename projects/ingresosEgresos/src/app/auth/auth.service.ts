@@ -17,12 +17,13 @@ import {
   DesactivarLoadingAction
 } from '../share/ui.actions';
 import { Subscription } from 'rxjs';
+import { UnsetItemAction } from '../ingreso-egreso/ingreso-egreso.actions';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
-  private userSubcrption: Subscription;
+  private userSubcrption: Subscription = new Subscription();
   private usuario: User;
 
   constructor(
@@ -96,6 +97,8 @@ export class AuthService {
   logout() {
     this.router.navigate(['/login']);
     this.angularfireAuth.auth.signOut();
+
+    this.store.dispatch(new UnsetItemAction());
   }
 
   isAuth() {

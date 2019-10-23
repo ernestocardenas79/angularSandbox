@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { AppState } from '../../app.reducer';
 import { Store } from '@ngrx/store';
 import { IngresoEgresoModel } from '../ingreso-egreso.model';
+import { ChartType } from 'chart.js';
+import { MultiDataSet, Label } from 'ng2-charts';
 
 @Component({
   selector: 'fhu-estadistica',
@@ -14,6 +16,11 @@ export class EstadisticaComponent implements OnInit {
 
   cuantosIngresos: number;
   cuantosEgresos: number;
+
+  public doughnutChartLabels: Label[] = ['Ingresos', 'Egresos'];
+  public doughnutChartType: ChartType = 'doughnut';
+  public doughnutChartData: MultiDataSet = [[0, 0]];
+
   constructor(private store: Store<AppState>) {}
 
   ngOnInit() {
@@ -37,5 +44,7 @@ export class EstadisticaComponent implements OnInit {
         this.egresos += item.monto;
       }
     });
+
+    this.doughnutChartData = [[this.cuantosIngresos, this.cuantosEgresos]];
   }
 }
