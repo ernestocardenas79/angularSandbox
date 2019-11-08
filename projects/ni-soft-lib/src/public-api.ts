@@ -5,3 +5,4 @@
 export * from './lib/floating-label/floating-label.component';
 export * from './lib/ni-soft-lib.module';
 export * from './lib/slider/slider.module';
+export * from './lib/toast/toast.module';
