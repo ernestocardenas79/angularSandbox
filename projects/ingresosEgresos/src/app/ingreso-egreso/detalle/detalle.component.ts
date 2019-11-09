@@ -1,10 +1,12 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { AppState } from '../../app.reducer';
+// import { AppState } from '../../app.reducer';
 import { Store } from '@ngrx/store';
 import { IngresoEgresoModel } from '../ingreso-egreso.model';
 import { Subscription } from 'rxjs';
 import { IngresoEgresoService } from '../ingreso-egreso.service';
 import Swal from 'sweetalert2';
+
+import * as fromIngresoEgresoReducer from '../ingreso-egreso.reducers';
 
 @Component({
   selector: 'fhu-detalle',
@@ -16,7 +18,7 @@ export class DetalleComponent implements OnInit, OnDestroy {
   subscription: Subscription = new Subscription();
 
   constructor(
-    private store: Store<AppState>,
+    private store: Store<fromIngresoEgresoReducer.AppState>,
     private ingresoEgresoService: IngresoEgresoService
   ) {}
 

@@ -83,7 +83,6 @@ export class AuthService {
     this.angularfireAuth.auth
       .signInWithEmailAndPassword(email, password)
       .then(() => {
-        console.log('ruteando');
         this.router.navigate(['/']);
         this.store.dispatch(new DesactivarLoadingAction());
       })

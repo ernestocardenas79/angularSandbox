@@ -4,6 +4,7 @@ import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
+import { AngularFireAuthModule } from '@angular/fire/auth';
 
 
 
@@ -12,7 +13,8 @@ import { RouterModule } from '@angular/router';
   imports: [
     CommonModule,
     FormsModule,
-RouterModule
+    AngularFireAuthModule,
+    RouterModule,
   ],
   exports:[LoginComponent, RegisterComponent]
 })
