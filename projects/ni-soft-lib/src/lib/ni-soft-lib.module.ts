@@ -6,15 +6,13 @@ import { SliderModule } from './slider/slider.module';
 import { ToastComponent } from './toast/toast.component';
 
 @NgModule({
-  declarations: [
-    FloatingLabelComponent,
-    FloatingLabelDirective,
-    ScoreCounterComponent,
-    ToastComponent],
-  imports: [],
-  entryComponents: [ToastComponent],
-  exports: [FloatingLabelComponent,
-    ScoreCounterComponent,
-    ToastComponent]
+    declarations: [
+        FloatingLabelComponent,
+        FloatingLabelDirective,
+        ScoreCounterComponent,
+    ],
+    imports: [],
+    entryComponents: [ToastComponent],
+    exports: [FloatingLabelComponent, ScoreCounterComponent],
 })
-export class NiSoftLibModule { }
+export class NiSoftLibModule {}
