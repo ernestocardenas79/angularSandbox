@@ -9,6 +9,7 @@ import { RouterModule, Route } from '@angular/router';
 import { GameScheduleComponent } from '../../projects/SPRTA/src/app/game-schedule/game-schedule.component';
 import { CommonModule } from '@angular/common';
 import { SliderModule, ToastModule } from 'ni-soft-lib';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 const providers = [];
 
@@ -27,7 +28,8 @@ const routing: Route[] = [
         ReactiveFormsModule,
         RouterModule.forRoot(routing),
         SliderModule,
-        ToastModule,
+        ToastModule.forRoot(),
+        BrowserAnimationsModule,
     ],
     declarations: [
         AppComponent,

@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ToastService } from 'ni-soft-lib';
 
 @Component({
   selector: 'nis-container',
@@ -11,13 +12,14 @@ export class ContainerComponent implements OnInit {
   lastName: string;
   brithDay: Date;
   selected: boolean;
-  constructor() { }
+  constructor(private toast: ToastService) { }
 
   ngOnInit() {
 
   }
 
   submit() {
-    console.log('adasd');
+    console.log('sumbit');
+    this.toast.show({ text: 'Toast, Toast, Toast', type: 'success'});
   }
 }

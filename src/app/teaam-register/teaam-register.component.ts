@@ -32,6 +32,6 @@ export class TeaamRegisterComponent implements OnInit {
     this.teamForm.patchValue({
       name: 'Ernesto',
       categoria: 'femenil'
-    })
+    });
   }
 }
