@@ -8,33 +8,36 @@ import { NavBarComponent } from './nav-bar/nav-bar.component';
 import { RouterModule, Route } from '@angular/router';
 import { GameScheduleComponent } from '../../projects/SPRTA/src/app/game-schedule/game-schedule.component';
 import { CommonModule } from '@angular/common';
-import { SliderModule } from 'ni-soft-lib';
+import { SliderModule, ToastModule } from 'ni-soft-lib';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 const providers = [];
 
 const routing: Route[] = [
-  { path: '', component: ContainerComponent },
-  { path: 'team', component: TeaamRegisterComponent },
-  // { path: 'gameScheduler', component: GameScheduleComponent },
-  { path: '**', redirectTo: '/' }
+    { path: '', component: ContainerComponent },
+    { path: 'team', component: TeaamRegisterComponent },
+    // { path: 'gameScheduler', component: GameScheduleComponent },
+    { path: '**', redirectTo: '/' },
 ];
 
 @NgModule({
-  imports: [
-    BrowserModule,
-    CommonModule,
-    FormsModule,
-    ReactiveFormsModule,
-    RouterModule.forRoot(routing),
-    SliderModule
-  ],
-  declarations: [
-    AppComponent,
-    ContainerComponent,
-    TeaamRegisterComponent,
-    NavBarComponent
-  ],
-  providers: [],
-  bootstrap: [AppComponent]
+    imports: [
+        BrowserModule,
+        CommonModule,
+        FormsModule,
+        ReactiveFormsModule,
+        RouterModule.forRoot(routing),
+        SliderModule,
+        ToastModule.forRoot(),
+        BrowserAnimationsModule,
+    ],
+    declarations: [
+        AppComponent,
+        ContainerComponent,
+        TeaamRegisterComponent,
+        NavBarComponent,
+    ],
+    providers: [],
+    bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}

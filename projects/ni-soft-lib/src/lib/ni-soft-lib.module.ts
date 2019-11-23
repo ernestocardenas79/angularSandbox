@@ -3,10 +3,16 @@ import { FloatingLabelComponent } from './floating-label/floating-label.componen
 import { FloatingLabelDirective } from './floating-label.directive';
 import { ScoreCounterComponent } from './score-counter/score-counter.component';
 import { SliderModule } from './slider/slider.module';
+import { ToastComponent } from './toast/toast.component';
 
 @NgModule({
-  declarations: [FloatingLabelComponent, FloatingLabelDirective, ScoreCounterComponent],
-  imports: [],
-  exports: [FloatingLabelComponent]
+    declarations: [
+        FloatingLabelComponent,
+        FloatingLabelDirective,
+        ScoreCounterComponent,
+    ],
+    imports: [],
+    entryComponents: [ToastComponent],
+    exports: [FloatingLabelComponent, ScoreCounterComponent],
 })
-export class NiSoftLibModule { }
+export class NiSoftLibModule {}
