@@ -3,10 +3,14 @@ import { NgModule } from '@angular/core';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import { GameConfigComponent } from './game-config/game-config.component';
+import { GamingScoreComponent } from './gaming-score/gaming-score.component';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    GameConfigComponent,
+    GamingScoreComponent
   ],
   imports: [
     BrowserModule,
