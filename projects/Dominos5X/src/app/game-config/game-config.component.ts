@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormArray, FormControl, Validators, FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-game-config',
@@ -7,8 +8,21 @@ import { Component, OnInit } from '@angular/core';
 })
 export class GameConfigComponent implements OnInit {
 
-  constructor() { }
+  configuracion: FormGroup;
+  constructor(private formBuilder: FormBuilder) {
+
+  }
 
   ngOnInit() {
+    this.configuracion = this.formBuilder.group({
+      players: this.formBuilder.array([
+              new FormControl('', Validators.required),
+              new FormControl('', Validators.required),
+          ])
+    });
+  }
+
+  AddPlayer() {
+    // this.players.push(new FormControl('', Validators.required));
   }
 }
