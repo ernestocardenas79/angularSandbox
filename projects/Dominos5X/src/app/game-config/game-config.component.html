@@ -1,12 +1,24 @@
-<section formGroup="configuracion">
-  <h1>Bienvenido</h1>
-  <h2>Tigre, ¿Quienes seran las victimas?</h2>
-  <h3>Nombres</h3>
-  <div formArrayName="players" *ngFor="let player of configuracion.get('players').controls; let i = index; ">
-      <input type="text" [formControlName]= "'Player'+i">
-  </div>
-  <button type="button" (click)="AddPlayer()">Agregar</button>
-  <label for="winScore">Wining Score</label>
-  <input type="text" name="winScore">
-  <button type="button">Iniciar</button>
-</section>
+<form [formGroup]="configuracion">
+    <h1>Bienvenido</h1>
+    <h2>Tigre, ¿Quienes seran las victimas?</h2>
+    <h3>Nombres</h3>
+    <div formArrayName="players" #playersContainer>
+        <input
+            *ngFor="let player of players.controls; let i = index"
+            type="text"
+        />
+    </div>
+
+    <button
+        type="button"
+        (click)="AddPlayer()"
+        [disabled]="players.controls.length > 3"
+    >
+        Agregar
+    </button>
+    <label for="winScore">Wining Score</label>
+    <input type="number" name="winScore" formControlName="winScore" />
+    <button type="button">Iniciar</button>
+    <br />
+    <br />
+</form>
