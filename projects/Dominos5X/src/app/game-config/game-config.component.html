@@ -2,10 +2,12 @@
     <h1>Bienvenido</h1>
     <h2>Tigre, ¿Quienes seran las victimas?</h2>
     <h3>Nombres</h3>
-    <div formArrayName="players" #playersContainer>
+    <div formArrayName="players">
         <input
+            #playerContainer
             *ngFor="let player of players.controls; let i = index"
             type="text"
+            [formControlName]="'' + i"
         />
     </div>
 
@@ -22,3 +24,4 @@
     <br />
     <br />
 </form>
+<app-drop-item referencia="10" (deleteItem)="deletePlayer(2)"></app-drop-item>
