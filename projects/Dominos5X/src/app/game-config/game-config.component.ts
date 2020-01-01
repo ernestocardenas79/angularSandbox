@@ -27,7 +27,8 @@ import { Subscription } from 'rxjs';
 })
 export class GameConfigComponent implements OnInit, OnDestroy, AfterViewInit {
     playerVCRSubscription: Subscription;
-    playerSubscription: { [id: number]: Subscription } = {};
+    // playerSubscription: { [id: number]: Subscription } = {};
+    playerSubscription: Subscription[];
 
     configuracion: FormGroup;
     limitOfPlayers = 4;
@@ -41,17 +42,8 @@ export class GameConfigComponent implements OnInit, OnDestroy, AfterViewInit {
         this.unsubscribeAllPlayers();
     }
 
-    constructor(
-        private formBuilder: FormBuilder,
-        private cfr: ComponentFactoryResolver
-    ) {}
-
-    get players(): FormArray {
-        return this.configuracion.get('players') as FormArray;
-    }
-
     ngOnInit() {
-        this.playerSubscription = {};
+        this.playerSubscription = [new Subscription()];
 
         this.configuracion = this.formBuilder.group({
             winScore: [''],
@@ -60,6 +52,15 @@ export class GameConfigComponent implements OnInit, OnDestroy, AfterViewInit {
                 new FormControl('', Validators.required),
             ]),
         });
+    }
+
+    constructor(
+        private formBuilder: FormBuilder,
+        private cfr: ComponentFactoryResolver
+    ) {}
+
+    get players(): FormArray {
+        return this.configuracion.get('players') as FormArray;
     }
 
     AddPlayer() {
@@ -81,19 +82,12 @@ export class GameConfigComponent implements OnInit, OnDestroy, AfterViewInit {
                 let containerRef = i.last.createComponent(factory);
                 containerRef.instance.referencia = i.length - 1;
 
-                console.log('Se crea objeto', i.length - 1);
-                containerRef.instance.deleteItem.subscribe(player => {
-                    console.log('Subcribe DeleteItem', player);
-                    // this.playerSubscription[player].unsubscribe();
-                    this.deletePlayer(player);
-                });
-
-                // console.log(
-                //     'es undefined ',
-                //     i.length - 1,
-                //     this.playerSubscription[i.length - 1]
-                // );
-                // this.playerSubscription[i.length - 1].unsubscribe();
+                this.playerSubscription.push(
+                    containerRef.instance.deleteItem.subscribe(player => {
+                        this.playerSubscription[player - 2].unsubscribe();
+                        this.deletePlayer(player);
+                    })
+                );
 
                 const viewRef = i.last.get(i.last.length - 1);
                 viewRef.detach();
@@ -108,8 +102,6 @@ export class GameConfigComponent implements OnInit, OnDestroy, AfterViewInit {
     }
 
     unsubscribeAllPlayers() {
-        for (let i = 2; i < this.players.length; i++) {
-            this.playerSubscription[i].unsubscribe();
-        }
+        this.playerSubscription.forEach(ps => ps.unsubscribe());
     }
 }

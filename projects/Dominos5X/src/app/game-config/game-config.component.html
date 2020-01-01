@@ -20,8 +20,8 @@
     </button>
     <label for="winScore">Wining Score</label>
     <input type="number" name="winScore" formControlName="winScore" />
-    <button type="button">Iniciar</button>
+    <button type="button" (click)="unsubscribeAllPlayers()">Iniciar</button>
     <br />
     <br />
 </form>
-<app-drop-item referencia="10" (deleteItem)="deletePlayer(2)"></app-drop-item>
+<!-- <app-drop-item referencia="10" (deleteItem)="deletePlayer(2)"></app-drop-item> -->
