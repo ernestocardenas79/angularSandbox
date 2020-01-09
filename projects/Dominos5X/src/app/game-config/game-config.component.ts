@@ -9,6 +9,8 @@ import {
     QueryList,
     OnDestroy,
     OnChanges,
+    ComponentRef,
+    ViewRef,
 } from '@angular/core';
 import {
     FormBuilder,
@@ -35,6 +37,9 @@ export class GameConfigComponent implements OnInit, OnDestroy, AfterViewInit {
 
     @ViewChildren('playerContainer', { read: ViewContainerRef })
     playerVCR: QueryList<ViewContainerRef>;
+
+    private componentsReferences = [];
+    private viewContainer: ViewRef;
 
     ngOnDestroy(): void {
         this.playerVCRSubscription.unsubscribe();
@@ -75,33 +80,63 @@ export class GameConfigComponent implements OnInit, OnDestroy, AfterViewInit {
     ngAfterViewInit() {
         this.playerVCRSubscription = this.playerVCR.changes.subscribe(
             (i: QueryList<ViewContainerRef>) => {
-                const factory = this.cfr.resolveComponentFactory(
-                    DropItemComponent
-                );
+        // let componentFactory = this.CFR.resolveComponentFactory(ChildComponent);
+        const factory = this.cfr.resolveComponentFactory(DropItemComponent);
 
-                let containerRef = i.last.createComponent(factory);
-                containerRef.instance.referencia = i.length - 1;
+        let containerRef = i.last.createComponent(factory);
+                // let componentRef: ComponentRef<ChildComponent> = this.VCR.createComponent(componentFactory);
 
-                this.playerSubscription.push(
+        this.viewContainer= containerRef.hostView;
+        const currentComponent = containerRef.instance;
+
+        currentComponent.referencia = i.length - 1;
+        currentComponent.selfRef = currentComponent;
+
+
+        // prividing parent Component reference to get access to parent class methods
+        currentComponent.compInteraction = this;
+
+        // add reference for newly created component
+        this.componentsReferences.push(containerRef);
+
+        this.playerSubscription.push(
                     containerRef.instance.deleteItem.subscribe(player => {
                         this.playerSubscription[player - 2].unsubscribe();
                         this.deletePlayer(player);
                     })
                 );
 
-                const viewRef = i.last.get(i.last.length - 1);
-                viewRef.detach();
-                containerRef = null;
+        // const viewRef = i.last.get(i.last.length - 1);
+        // viewRef.detach();
+        containerRef = null;
             }
         );
-    }
+      }
 
     deletePlayer(player) {
-        console.log('removinedo player', player);
+        console.log('removinedo player', player,this.viewContainer);
+        this.viewContainer.destroy();
         this.players.removeAt(player);
+        // this.remove(player);
     }
 
     unsubscribeAllPlayers() {
         this.playerSubscription.forEach(ps => ps.unsubscribe());
     }
+
+  remove(index: number) {
+
+    console.log('remove gameCOnfig', this.componentsReferences);
+    const componentRef: ComponentRef<DropItemComponent> = this.componentsReferences.filter(x => x.instance.referencia === index)[0];
+    const component: DropItemComponent =  componentRef.instance as DropItemComponent;
+
+    // const vcrIndex: number = this.playerVCR.toArray().indexOf(componentRef);
+
+    // console.log('remove', vcrIndex, this.playerVCR[vcrIndex], component);
+    // // removing component from container
+    // this.playerVCR[vcrIndex].remove(vcrIndex);
+    // (componentRef.hostView._viewContainerRef).remove(1);
+
+    this.componentsReferences = this.componentsReferences.filter(x => x.instance.referencia !== index);
+  }
 }
