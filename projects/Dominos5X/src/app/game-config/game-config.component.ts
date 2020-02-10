@@ -22,8 +22,8 @@ import { DropItemComponent } from '../shared/drop-item/drop-item.component';
 import { Subscription } from 'rxjs';
 
 interface PlayerInteraction {
-  susbcription: Subscription;
-  viewRef: ViewRef;
+    susbcription: Subscription;
+    viewRef: ViewRef;
 }
 
 @Component({
@@ -33,7 +33,13 @@ interface PlayerInteraction {
 })
 export class GameConfigComponent implements OnInit, OnDestroy, AfterViewInit {
     playerVCRSubscription: Subscription;
-    playerCollection: { [id: number]: { subscription, viewRef } } = {};
+    playerCollection: {
+        [id: number]: {
+            subscription;
+            viewRef;
+            position: number;
+        };
+    } = {};
     playerSubscription: Subscription[];
     private playersConunter = 1;
 
@@ -86,59 +92,73 @@ export class GameConfigComponent implements OnInit, OnDestroy, AfterViewInit {
     ngAfterViewInit() {
         this.playerVCRSubscription = this.playerVCR.changes.subscribe(
             (i: QueryList<ViewContainerRef>) => {
-
                 const playerControls = this.playerVCR.length - 2;
-                // console.log('playerControls', playerControls, this.playersConunter);
                 if (this.playersConunter <= playerControls) {
-                  console.log('READY TO CREATE');
-                    // let componentFactory = this.CFR.resolveComponentFactory(ChildComponent);
-                  const factory = this.cfr.resolveComponentFactory(DropItemComponent);
+                    const factory = this.cfr.resolveComponentFactory(
+                        DropItemComponent
+                    );
 
-                  const containerRef = i.last.createComponent(factory);
+                    const containerRef = i.last.createComponent(factory);
 
-                  const currentComponent = containerRef.instance;
+                    const currentComponent = containerRef.instance;
 
-                  const playerNumber = i.length - 1;
-                  currentComponent.referencia = playerNumber;
-                  currentComponent.selfRef = currentComponent;
+                    const playerNumber = i.length - 1;
+                    currentComponent.referencia = playerNumber;
+                    currentComponent.selfRef = currentComponent;
 
-                  this.playerCollection[playerNumber] = {subscription: {}, viewRef: {}};
+                    this.playerCollection[playerNumber] = {
+                        subscription: {},
+                        viewRef: {},
+                        position: 0,
+                    };
 
-                  this.playerCollection[playerNumber].subscription =
-                                containerRef.instance.deleteItem.subscribe(player => {
-                                  this.playerCollection[player].subscription.unsubscribe();
-                                  this.deletePlayer(player);
-                                  console.log('deleteItem.subscribe',  this.playerSubscription);
-                                });
+                    this.playerCollection[
+                        playerNumber
+                    ].subscription = containerRef.instance.deleteItem.subscribe(
+                        player => {
+                            this.deletePlayer(player);
+                        }
+                    );
 
-                  const viewRef = i.last.get(i.last.length - 1);
+                    const viewRef = i.last.get(i.last.length - 1);
 
-                  this.playerCollection[playerNumber].viewRef = viewRef;
+                    this.playerCollection[playerNumber].viewRef = viewRef;
+                    this.playerCollection[playerNumber].position =
+                        this.playerVCR.length - 1;
 
-                  this.playersConunter = playerControls;
-
+                    this.playersConunter = playerControls;
                 } else {
-                  this.playersConunter = playerControls;
+                    this.playersConunter = playerControls;
                 }
                 console.log('Afetr ', playerControls, this.playerCollection);
-
-            });
-      }
+            }
+        );
+    }
 
     deletePlayer(player) {
-        this.players.removeAt(player);
-        this.remove(player);
+        const playerControls = this.playerVCR.length - 2;
+        this.players.removeAt(this.playerCollection[player].position);
+
+        setTimeout(() => {
+            this.playerCollection[player].subscription.unsubscribe();
+            this.playerCollection[player].viewRef.destroy();
+            delete this.playerCollection[player];
+
+            let indexCollection = player;
+            for (let index = player; index <= playerControls; index++) {
+                indexCollection++;
+                try {
+                    this.playerCollection[indexCollection].position =
+                        this.playerCollection[indexCollection].position - 1;
+                } catch (error) {}
+            }
+        }, 300);
     }
 
     unsubscribeAllPlayers() {
-        this.playerSubscription.forEach(ps => ps.unsubscribe());
+        // tslint:disable-next-line: forin
+        for (const player in this.playerCollection) {
+            this.playerCollection[player].subscription.unsubscribe();
+        }
     }
-
-  remove(player: number) {
-
-      setTimeout(() => {
-        this.playerCollection[player].viewRef.destroy();
-
-    }, 500);
-  }
 }
