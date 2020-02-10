@@ -1,17 +1,16 @@
 import {
     Component,
     OnInit,
-    ViewChild,
     ViewContainerRef,
     AfterViewInit,
     ComponentFactoryResolver,
     ViewChildren,
     QueryList,
     OnDestroy,
-    OnChanges,
     ComponentRef,
     ViewRef,
 } from '@angular/core';
+
 import {
     FormBuilder,
     FormControl,
@@ -22,6 +21,11 @@ import {
 import { DropItemComponent } from '../shared/drop-item/drop-item.component';
 import { Subscription } from 'rxjs';
 
+interface PlayerInteraction {
+  susbcription: Subscription;
+  viewRef: ViewRef;
+}
+
 @Component({
     selector: 'app-game-config',
     templateUrl: './game-config.component.html',
@@ -29,8 +33,9 @@ import { Subscription } from 'rxjs';
 })
 export class GameConfigComponent implements OnInit, OnDestroy, AfterViewInit {
     playerVCRSubscription: Subscription;
-    // playerSubscription: { [id: number]: Subscription } = {};
+    playerCollection: { [id: number]: { subscription, viewRef } } = {};
     playerSubscription: Subscription[];
+    private playersConunter = 1;
 
     configuracion: FormGroup;
     limitOfPlayers = 4;
@@ -48,7 +53,7 @@ export class GameConfigComponent implements OnInit, OnDestroy, AfterViewInit {
     }
 
     ngOnInit() {
-        this.playerSubscription = [new Subscription()];
+        this.playerSubscription = [];
 
         this.configuracion = this.formBuilder.group({
             winScore: [''],
@@ -61,7 +66,8 @@ export class GameConfigComponent implements OnInit, OnDestroy, AfterViewInit {
 
     constructor(
         private formBuilder: FormBuilder,
-        private cfr: ComponentFactoryResolver
+        private cfr: ComponentFactoryResolver,
+        private vcr: ViewContainerRef
     ) {}
 
     get players(): FormArray {
@@ -80,63 +86,59 @@ export class GameConfigComponent implements OnInit, OnDestroy, AfterViewInit {
     ngAfterViewInit() {
         this.playerVCRSubscription = this.playerVCR.changes.subscribe(
             (i: QueryList<ViewContainerRef>) => {
-        // let componentFactory = this.CFR.resolveComponentFactory(ChildComponent);
-        const factory = this.cfr.resolveComponentFactory(DropItemComponent);
 
-        let containerRef = i.last.createComponent(factory);
-                // let componentRef: ComponentRef<ChildComponent> = this.VCR.createComponent(componentFactory);
+                const playerControls = this.playerVCR.length - 2;
+                // console.log('playerControls', playerControls, this.playersConunter);
+                if (this.playersConunter <= playerControls) {
+                  console.log('READY TO CREATE');
+                    // let componentFactory = this.CFR.resolveComponentFactory(ChildComponent);
+                  const factory = this.cfr.resolveComponentFactory(DropItemComponent);
 
-        this.viewContainer= containerRef.hostView;
-        const currentComponent = containerRef.instance;
+                  const containerRef = i.last.createComponent(factory);
 
-        currentComponent.referencia = i.length - 1;
-        currentComponent.selfRef = currentComponent;
+                  const currentComponent = containerRef.instance;
 
+                  const playerNumber = i.length - 1;
+                  currentComponent.referencia = playerNumber;
+                  currentComponent.selfRef = currentComponent;
 
-        // prividing parent Component reference to get access to parent class methods
-        currentComponent.compInteraction = this;
+                  this.playerCollection[playerNumber] = {subscription: {}, viewRef: {}};
 
-        // add reference for newly created component
-        this.componentsReferences.push(containerRef);
+                  this.playerCollection[playerNumber].subscription =
+                                containerRef.instance.deleteItem.subscribe(player => {
+                                  this.playerCollection[player].subscription.unsubscribe();
+                                  this.deletePlayer(player);
+                                  console.log('deleteItem.subscribe',  this.playerSubscription);
+                                });
 
-        this.playerSubscription.push(
-                    containerRef.instance.deleteItem.subscribe(player => {
-                        this.playerSubscription[player - 2].unsubscribe();
-                        this.deletePlayer(player);
-                    })
-                );
+                  const viewRef = i.last.get(i.last.length - 1);
 
-        // const viewRef = i.last.get(i.last.length - 1);
-        // viewRef.detach();
-        containerRef = null;
-            }
-        );
+                  this.playerCollection[playerNumber].viewRef = viewRef;
+
+                  this.playersConunter = playerControls;
+
+                } else {
+                  this.playersConunter = playerControls;
+                }
+                console.log('Afetr ', playerControls, this.playerCollection);
+
+            });
       }
 
     deletePlayer(player) {
-        console.log('removinedo player', player,this.viewContainer);
-        this.viewContainer.destroy();
         this.players.removeAt(player);
-        // this.remove(player);
+        this.remove(player);
     }
 
     unsubscribeAllPlayers() {
         this.playerSubscription.forEach(ps => ps.unsubscribe());
     }
 
-  remove(index: number) {
+  remove(player: number) {
 
-    console.log('remove gameCOnfig', this.componentsReferences);
-    const componentRef: ComponentRef<DropItemComponent> = this.componentsReferences.filter(x => x.instance.referencia === index)[0];
-    const component: DropItemComponent =  componentRef.instance as DropItemComponent;
+      setTimeout(() => {
+        this.playerCollection[player].viewRef.destroy();
 
-    // const vcrIndex: number = this.playerVCR.toArray().indexOf(componentRef);
-
-    // console.log('remove', vcrIndex, this.playerVCR[vcrIndex], component);
-    // // removing component from container
-    // this.playerVCR[vcrIndex].remove(vcrIndex);
-    // (componentRef.hostView._viewContainerRef).remove(1);
-
-    this.componentsReferences = this.componentsReferences.filter(x => x.instance.referencia !== index);
+    }, 500);
   }
 }

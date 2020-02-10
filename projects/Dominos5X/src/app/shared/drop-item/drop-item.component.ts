@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Output, EventEmitter, ViewContainerRef } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, ViewContainerRef, OnDestroy } from '@angular/core';
 import { ConcatSource } from 'webpack-sources';
 
 export interface MyInterface {
@@ -10,22 +10,27 @@ export interface MyInterface {
     templateUrl: './drop-item.component.html',
     styleUrls: ['./drop-item.component.scss'],
 })
-export class DropItemComponent implements OnInit {
-    @Input()
-    referencia: number;
+export class DropItemComponent implements OnInit, OnDestroy {
 
-    @Output()
-    deleteItem: EventEmitter<number> = new EventEmitter();
+    constructor() {}
+  @Input()
+  referencia: number;
 
-    public index: number;
+  @Output()
+  deleteItem: EventEmitter<number> = new EventEmitter();
+  public index: number;
     public selfRef: DropItemComponent;
 
     // interface for Parent-Child interaction
     public compInteraction: MyInterface;
 
-    constructor() {}
+  ngOnDestroy(): void {
+    // console.log('Destruyendo Drop Item');
+  }
 
-    ngOnInit() {}
+    ngOnInit() {
+      // console.log('Crando Drop Item');
+    }
 
     drop() {
         console.log('Drop Item', this.referencia);
