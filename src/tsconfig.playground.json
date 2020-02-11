@@ -4,13 +4,12 @@
     "outDir": "../out-tsc/app",
     "types": []
   },
-  "include": [
-    "**/*.ts",
-    "../projects/ni-soft-lib/src/**/*.ts"
+  "files": [
+    "main.playground.ts",
+    "polyfills.ts"
   ],
-  "exclude": [
-    "test.ts",
-    "**/*.spec.ts",
-    "../projects/ni-soft-lib/src/**/*.spec.ts"
+  "include": [
+    "**/*.d.ts",
+    "../projects/ni-soft-lib/src/**/*.ts"
   ]
 }
