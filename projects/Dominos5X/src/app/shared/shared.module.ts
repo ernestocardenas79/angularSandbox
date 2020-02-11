@@ -6,6 +6,5 @@ import { DropItemComponent } from './drop-item/drop-item.component';
     declarations: [DropItemComponent],
     imports: [CommonModule],
     exports: [DropItemComponent],
-    // entryComponents: [DropItemComponent],
 })
 export class SharedModule {}
