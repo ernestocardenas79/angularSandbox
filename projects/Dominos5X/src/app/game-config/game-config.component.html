@@ -2,7 +2,7 @@
     <h1>Bienvenido</h1>
     <h2>Tigre, ¿Quienes seran las victimas?</h2>
     <h3>Nombres</h3>
-    <div formArrayName="players" >
+    <div formArrayName="players">
         <input
             #playerContainer
             *ngFor="let player of players.controls; let i = index"
@@ -14,14 +14,17 @@
     <button
         type="button"
         (click)="AddPlayer()"
-        [disabled]="players.controls.length > 3"
+        [disabled]="players?.controls.length > 3"
     >
         Agregar
     </button>
     <label for="winScore">Wining Score</label>
     <input type="number" name="winScore" formControlName="winScore" />
-    <button type="button" (click)="unsubscribeAllPlayers()">Iniciar</button>
+    <!-- [disabled]="!configuracion.valid" -->
+    <button type="button" (click)="startGame()">Iniciar</button>
     <br />
     <br />
 </form>
-<!-- <app-drop-item referencia="10" (deleteItem)="deletePlayer(2)"></app-drop-item> -->
+<p>{{ configuracion.valid }}</p>
+
+<p>{{ configuracion.value | json }}</p>
