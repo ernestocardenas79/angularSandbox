@@ -70,7 +70,10 @@ export class GameConfigComponent implements OnInit, OnDestroy, AfterViewInit {
         private vcr: ViewContainerRef,
         private router: Router,
         private gameConfigService: GameConfigService
-    ) {}
+    ) {
+
+      console.log('ctor config');
+    }
 
     private PlayerControlCtor(players: any[]) {
         let defaultPlayers = [];

@@ -17,6 +17,6 @@ export class GameConfigService {
         this.gameConfig = config;
     }
     constructor(private router: Router) {
-        this.gameConfig = {};
+        this.gameConfig = { winScore: 250, players: ['Ernesto', 'Fashi'] } ;
     }
 }
