@@ -604,6 +604,14 @@
                   "maximumError": "10kb"
                 }
               ]
+            },
+            "hmr": {
+              "fileReplacements": [
+                {
+                  "replace": "projects/Dominos5X/src/environments/environment.ts",
+                  "with": "projects/Dominos5X/src/environments/environment.hmr.ts"
+                }
+              ]
             }
           }
         },
@@ -615,6 +623,10 @@
           "configurations": {
             "production": {
               "browserTarget": "Dominos5X:build:production"
+            },
+            "hmr": {
+              "hmr": true,
+              "browserTarget": "Dominos5X:build:hmr"
             }
           }
         },

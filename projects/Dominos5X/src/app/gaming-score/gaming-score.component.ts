@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { GameConfigService } from '../services/game-config.service';
 
 @Component({
   selector: 'app-gaming-score',
@@ -7,9 +8,13 @@ import { Component, OnInit } from '@angular/core';
 })
 export class GamingScoreComponent implements OnInit {
 
-  constructor() { }
+  config;
+  players;
+  constructor(private gameConfigService: GameConfigService) { }
 
   ngOnInit() {
+    this.config = this.gameConfigService.loadConfig;
+    this.players = this.config.players;
   }
 
 }

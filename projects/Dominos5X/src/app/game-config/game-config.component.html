@@ -3,12 +3,14 @@
     <h2>Tigre, ¿Quienes seran las victimas?</h2>
     <h3>Nombres</h3>
     <div formArrayName="players">
-        <input
-            #playerContainer
-            *ngFor="let player of players.controls; let i = index"
-            type="text"
-            [formControlName]="'' + i"
-        />
+        <div *ngFor="let player of players.controls; let i = index">
+          <ng-container #playerContainer>
+            <input
+                type="text"
+                [formControlName]="'' + i"
+            />
+          </ng-container>
+        </div>
     </div>
 
     <button
