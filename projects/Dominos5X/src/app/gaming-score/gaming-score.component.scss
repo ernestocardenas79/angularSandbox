@@ -1,12 +1,31 @@
 :host {
-  padding-top: 3%;
-  display: block;
-  // background-color: red;
+    padding-top: 3%;
+    display: block;
 }
 
-section{
-  width: 95%;
-  height: 97%;
-  background: lightblue;
-  margin: auto;
+header {
+    margin: 10px;
+}
+
+section {
+    width: 95%;
+    height: calc(95% - 10px);
+    background: lightblue;
+    margin: auto;
+    overflow: hidden;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+
+    app-player-score {
+        width: 100%;
+        overflow: hidden;
+    }
+}
+
+section:nth-child(2) {
+    grid-template-columns: 1fr 1fr 1fr;
+}
+
+section:nth-child(3) {
+    grid-template-columns: 1fr 1fr 1fr 1fr;
 }
