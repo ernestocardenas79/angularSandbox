@@ -14,7 +14,6 @@ section {
     margin: auto;
     overflow: hidden;
     display: grid;
-    grid-template-columns: 1fr 1fr;
 
     app-player-score {
         width: 100%;
@@ -22,10 +21,14 @@ section {
     }
 }
 
-section:nth-child(2) {
+.default_players {
+    grid-template-columns: 1fr 1fr;
+}
+
+.three_players {
     grid-template-columns: 1fr 1fr 1fr;
 }
 
-section:nth-child(3) {
+.four_players {
     grid-template-columns: 1fr 1fr 1fr 1fr;
 }
