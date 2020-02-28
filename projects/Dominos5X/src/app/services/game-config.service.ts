@@ -13,7 +13,6 @@ export class GameConfigService {
     start(config) {
         this.router.navigate(['score']);
 
-        console.log(config);
         this.gameConfig = config;
     }
     constructor(private router: Router) {
