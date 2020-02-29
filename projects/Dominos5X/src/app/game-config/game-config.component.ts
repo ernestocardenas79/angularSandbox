@@ -67,12 +67,9 @@ export class GameConfigComponent implements OnInit, OnDestroy, AfterViewInit {
     constructor(
         private formBuilder: FormBuilder,
         private cfr: ComponentFactoryResolver,
-        private vcr: ViewContainerRef,
-        private router: Router,
         private gameConfigService: GameConfigService
     ) {
-
-      console.log('ctor config');
+        console.log('ctor config');
     }
 
     private PlayerControlCtor(players: any[]) {
@@ -101,61 +98,62 @@ export class GameConfigComponent implements OnInit, OnDestroy, AfterViewInit {
     }
 
     AddPlayer(name?: string) {
-      if (this.players.controls.length < 4) {
-          const newControl = new FormControl(name ? name : '', Validators.required);
-          this.players.push(newControl);
-      } else {
-          alert('El numero maximo de jugadores es 4');
-      }
+        if (this.players.controls.length < 4) {
+            const newControl = new FormControl(
+                name ? name : '',
+                Validators.required
+            );
+            this.players.push(newControl);
+        } else {
+            alert('El numero maximo de jugadores es 4');
+        }
     }
 
     ngAfterViewInit() {
-      this.playerVCRSubscription = this.playerVCR.changes.subscribe(
-          (i: QueryList<ViewContainerRef>) => {
-              this.asociateDropControl(this.playerVCR.last);
-          }
-      );
+        this.playerVCRSubscription = this.playerVCR.changes.subscribe(
+            (i: QueryList<ViewContainerRef>) => {
+                this.asociateDropControl(this.playerVCR.last);
+            }
+        );
     }
 
     private asociateDropControl(viewContainer: ViewContainerRef) {
         console.log('viewContainer', viewContainer, this.playerVCR);
         const playerControls = this.playerVCR.length - 2;
         if (this.playersCounter <= playerControls) {
-                const factory = this.cfr.resolveComponentFactory(
-                    DropItemComponent
-                );
+            const factory = this.cfr.resolveComponentFactory(DropItemComponent);
 
-                const containerRef = viewContainer.createComponent(factory);
+            const containerRef = viewContainer.createComponent(factory);
 
-                const currentComponent = containerRef.instance;
+            const currentComponent = containerRef.instance;
 
-                const playerNumber = playerControls + 1;
-                currentComponent.referencia = playerNumber;
-                currentComponent.selfRef = currentComponent;
+            const playerNumber = playerControls + 1;
+            currentComponent.referencia = playerNumber;
+            currentComponent.selfRef = currentComponent;
 
-                this.playerCollection[playerNumber] = {
-                    subscription: {},
-                    viewRef: {},
-                    position: 0,
-                };
+            this.playerCollection[playerNumber] = {
+                subscription: {},
+                viewRef: {},
+                position: 0,
+            };
 
-                this.playerCollection[
-                    playerNumber
-                ].subscription = containerRef.instance.deleteItem.subscribe(
-                    player => {
-                        this.deletePlayer(player);
-                    }
-                );
+            this.playerCollection[
+                playerNumber
+            ].subscription = containerRef.instance.deleteItem.subscribe(
+                player => {
+                    this.deletePlayer(player);
+                }
+            );
 
-                const viewRef = viewContainer.get(viewContainer.length - 1);
+            const viewRef = viewContainer.get(viewContainer.length - 1);
 
-                this.playerCollection[playerNumber].viewRef = viewRef;
-                this.playerCollection[playerNumber].position = playerNumber;
+            this.playerCollection[playerNumber].viewRef = viewRef;
+            this.playerCollection[playerNumber].position = playerNumber;
 
-                this.playersCounter = playerControls;
-            } else {
-                this.playersCounter = playerControls;
-            }
+            this.playersCounter = playerControls;
+        } else {
+            this.playersCounter = playerControls;
+        }
     }
 
     deletePlayer(player) {
@@ -194,28 +192,32 @@ export class GameConfigComponent implements OnInit, OnDestroy, AfterViewInit {
     }
 
     loadConfig() {
-      const { winScore, players } = this.gameConfigService.loadConfig;
+        const { winScore, players } = this.gameConfigService.loadConfig;
 
-      if (!players) {
-          this.configuracion = this.formBuilder.group({
-              winScore: [winScore, Validators.required],
-              players: this.formBuilder.array(this.PlayerControlCtor(players)),
-          });
-      } else {
-          const firstsPlayers = [];
-          firstsPlayers.push(players[0]);
-          firstsPlayers.push(players[1]);
+        if (!players) {
+            this.configuracion = this.formBuilder.group({
+                winScore: [winScore, Validators.required],
+                players: this.formBuilder.array(
+                    this.PlayerControlCtor(players)
+                ),
+            });
+        } else {
+            const firstsPlayers = [];
+            firstsPlayers.push(players[0]);
+            firstsPlayers.push(players[1]);
 
-          this.configuracion = this.formBuilder.group({
-              winScore: [winScore, Validators.required],
-              players: this.formBuilder.array(this.PlayerControlCtor(firstsPlayers)),
-          });
+            this.configuracion = this.formBuilder.group({
+                winScore: [winScore, Validators.required],
+                players: this.formBuilder.array(
+                    this.PlayerControlCtor(firstsPlayers)
+                ),
+            });
 
-          for (let index = 2; index < players.length; index++) {
-            setTimeout(() => {
-              this.AddPlayer(players[index]);
-            }, 0);
-          }
-      }
+            for (let index = 2; index < players.length; index++) {
+                setTimeout(() => {
+                    this.AddPlayer(players[index]);
+                }, 0);
+            }
+        }
     }
 }

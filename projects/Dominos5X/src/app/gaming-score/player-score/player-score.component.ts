@@ -1,4 +1,13 @@
-import { Component, OnInit, Input, HostListener } from '@angular/core';
+import {
+    Component,
+    OnInit,
+    Input,
+    HostListener,
+    ViewChildren,
+    ViewContainerRef,
+    QueryList,
+    ComponentFactoryResolver,
+} from '@angular/core';
 
 @Component({
     selector: 'app-player-score',
@@ -6,21 +15,27 @@ import { Component, OnInit, Input, HostListener } from '@angular/core';
     styleUrls: ['./player-score.component.scss'],
 })
 export class PlayerScoreComponent implements OnInit {
+    constructor(private cfr: ComponentFactoryResolver) {}
     puntos = 0;
 
     @Input()
     nombre: string;
+
+    @ViewChildren('counterContainer', { read: ViewContainerRef })
+    counterContainerVCR: QueryList<ViewContainerRef>;
 
     @HostListener('click', ['$event.target'])
     onClick() {
         alert(this.nombre);
     }
 
-    constructor() {}
-
     ngOnInit(): void {}
 
     incrementarPuntaje() {
         this.puntos += 5;
+    }
+
+    ngAfterInit() {
+        this.counterContainerVCR.changes.subscribe();
     }
 }
