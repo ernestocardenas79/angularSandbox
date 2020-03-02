@@ -1,35 +1,62 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { ConcatSource } from 'webpack-sources';
 
 @Component({
-  selector: 'nisl-score-counter',
-  templateUrl: './score-counter.component.html',
-  styleUrls: ['./score-counter.component.scss']
+    selector: 'nisl-score-counter',
+    templateUrl: './score-counter.component.html',
+    styleUrls: ['./score-counter.component.scss'],
 })
 export class ScoreCounterComponent implements OnInit {
+    puntosList: string[];
+    completed = false;
+    private maxSlots = 5;
+    private assignedSlots = 0;
 
-  puntosList: string[];
+    @Output()
+    isCompleted: EventEmitter<boolean> = new EventEmitter();
 
-  @Input()
-  set puntos(ptos: number) {
-    let aux = '';
-    for (let i = 0; i < ptos; i++) {
-        aux = aux + '|';
+    assignSlots(ptos: number) {
+        console.log('assignSlots', ptos, this.assignedSlots);
+        if (!this.completed) {
+            let slotForAssign = ptos;
+
+            if (this.assignedSlots + ptos >= this.maxSlots) {
+                this.completed = true;
+                slotForAssign = this.SlotsToAssing;
+
+                if (this.assignedSlots + ptos >= this.maxSlots) {
+                    this.isCompleted.emit(true);
+                }
+                this.assignedSlots = this.maxSlots;
+            } else {
+                this.assignedSlots += ptos;
+            }
+            this.incrementSlots(slotForAssign);
+        }
     }
-    console.log(ptos, aux);
 
-    this.puntosList = aux.split('|').slice(1);
-  }
+    get SlotsToAssing() {
+        return this.maxSlots - this.assignedSlots;
+    }
 
-  @Input()
-  player: string;
+    private incrementSlots(ptos: number) {
+        let aux = '';
 
-  constructor() { }
+        if (this.puntosList?.length > 0) {
+            aux = this.puntosList.join('|');
+            for (let i = 0; i < ptos; i++) {
+                aux += '|a';
+            }
+            this.puntosList = aux.split('|');
+            console.log('aux', aux);
+        } else {
+            this.puntosList = ['a'];
+        }
 
-  ngOnInit() {
-    console.log(this.player);
-  }
+        console.log('incrementSlots', ptos, aux, this.puntosList);
+    }
 
+    constructor() {}
 
-
-
+    ngOnInit() {}
 }

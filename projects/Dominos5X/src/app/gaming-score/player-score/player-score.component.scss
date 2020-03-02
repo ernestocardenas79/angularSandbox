@@ -12,9 +12,10 @@ span {
     text-align: center;
 }
 
-nisl-score-counter {
+:host ::ng-deep nisl-score-counter {
     margin: auto;
     margin-top: 10px;
     display: block;
     height: 10%;
+    width: 90%;
 }
