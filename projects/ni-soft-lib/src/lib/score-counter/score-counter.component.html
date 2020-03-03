@@ -1,3 +1,95 @@
 <div class="container">
-  <div *ngFor="let punto of puntosList"></div>
+    <!-- <div *ngFor="let punto of puntosList"></div> -->
+    <svg xmlns="http://www.w3.org/2000/svg" version="1.1">
+        <line
+            [attr.class]="assignedSlots >= 1 ? 'scored' : ''"
+            x1="0"
+            x2="100%"
+            y1="0"
+            y2="100%"
+            stroke="transparent"
+            stroke-width="1.5%"
+        />
+        <line
+            [attr.class]="assignedSlots >= 2 ? 'scored' : ''"
+            x1="100%"
+            x2="0"
+            y1="0"
+            y2="100%"
+            stroke="transparent"
+            stroke-width="1.5%"
+        />
+        <line
+            [attr.class]="assignedSlots >= 3 ? 'scored' : ''"
+            x1="50%"
+            x2="45%"
+            y1="10"
+            y2="30%"
+            stroke="transparent"
+            stroke-width="1.5%"
+        />
+        <line
+            [attr.class]="assignedSlots >= 4 ? 'scored' : ''"
+            x1="40%"
+            x2="55%"
+            y1="10"
+            y2="30%"
+            stroke="transparent"
+            stroke-width="1.5%"
+        />
+        <line
+            [attr.class]="assignedSlots >= 5 ? 'scored' : ''"
+            x1="9%"
+            y1="30%"
+            x2="15%"
+            y2="55%"
+            stroke="transparent"
+            stroke-width="1.5%"
+        />
+        <line
+            [attr.class]="assignedSlots >= 6 ? 'scored' : ''"
+            x1="18%"
+            y1="30%"
+            x2="5%"
+            y2="55%"
+            stroke="transparent"
+            stroke-width="1.5%"
+        />
+        <line
+            [attr.class]="assignedSlots >= 7 ? 'scored' : ''"
+            x1="91%"
+            y1="30%"
+            x2="85%"
+            y2="55%"
+            stroke="transparent"
+            stroke-width="1.5%"
+        />
+        <line
+            [attr.class]="assignedSlots >= 8 ? 'scored' : ''"
+            x1="82%"
+            y1="30%"
+            x2="95%"
+            y2="55%"
+            stroke="transparent"
+            stroke-width="1.5%"
+        />
+        <line
+            [attr.class]="assignedSlots >= 9 ? 'scored' : ''"
+            x1="45%"
+            x2="55%"
+            y1="70%"
+            y2="97%"
+            stroke="transparent"
+            stroke-width="1.5%"
+        />
+        <line
+            [attr.class]="assignedSlots === 10 ? 'scored' : ''"
+            x1="60%"
+            x2="40%"
+            y1="70%"
+            y2="97%"
+            stroke="transparent"
+            stroke-width="1.5%"
+        />
+    </svg>
 </div>

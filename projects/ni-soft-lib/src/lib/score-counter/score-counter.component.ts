@@ -1,16 +1,23 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { ConcatSource } from 'webpack-sources';
+import {
+    Component,
+    OnInit,
+    Input,
+    Output,
+    EventEmitter,
+    ChangeDetectionStrategy,
+} from '@angular/core';
 
 @Component({
     selector: 'nisl-score-counter',
     templateUrl: './score-counter.component.html',
     styleUrls: ['./score-counter.component.scss'],
+    changeDetection: ChangeDetectionStrategy.Default,
 })
 export class ScoreCounterComponent implements OnInit {
     puntosList: string[];
     completed = false;
-    private maxSlots = 5;
-    private assignedSlots = 0;
+    private maxSlots = 10;
+    assignedSlots = 0;
 
     @Output()
     isCompleted: EventEmitter<boolean> = new EventEmitter();
@@ -18,12 +25,22 @@ export class ScoreCounterComponent implements OnInit {
     assignSlots(ptos: number) {
         console.log('assignSlots', ptos, this.assignedSlots);
         if (!this.completed) {
-            let slotForAssign = ptos;
+            // let slotForAssign = ptos;
+
+            // if (this.assignedSlots + ptos >= this.maxSlots) {
+            //     this.completed = true;
+            //     slotForAssign = this.SlotsToAssing;
+
+            //     if (this.assignedSlots + ptos >= this.maxSlots) {
+            //         this.isCompleted.emit(true);
+            //     }
+            //     this.assignedSlots = this.maxSlots;
+            // } else {
+            //     this.assignedSlots += ptos;
+            // }
+            // this.incrementSlots(slotForAssign);
 
             if (this.assignedSlots + ptos >= this.maxSlots) {
-                this.completed = true;
-                slotForAssign = this.SlotsToAssing;
-
                 if (this.assignedSlots + ptos >= this.maxSlots) {
                     this.isCompleted.emit(true);
                 }
@@ -31,7 +48,6 @@ export class ScoreCounterComponent implements OnInit {
             } else {
                 this.assignedSlots += ptos;
             }
-            this.incrementSlots(slotForAssign);
         }
     }
 
