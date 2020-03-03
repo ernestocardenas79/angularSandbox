@@ -188,7 +188,8 @@ export class GameConfigComponent implements OnInit, OnDestroy, AfterViewInit {
             return;
         }
 
-        this.gameConfigService.start(this.configuracion.value);
+        // this.gameConfigService.start(this.configuracion.value);
+        this.gameConfigService.winner('miMismo');
     }
 
     loadConfig() {

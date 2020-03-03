@@ -22,7 +22,6 @@ export class ScoreCounterComponent implements OnInit {
     isCompleted: EventEmitter<boolean> = new EventEmitter();
 
     assignSlots(ptos: number) {
-        console.log('assignSlots', ptos, this.assignedSlots);
         if (!this.completed) {
             if (this.assignedSlots + ptos >= this.maxSlots) {
                 if (this.assignedSlots + ptos >= this.maxSlots) {
