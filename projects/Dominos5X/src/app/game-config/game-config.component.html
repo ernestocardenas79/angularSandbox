@@ -2,14 +2,11 @@
     <h1>Bienvenido</h1>
     <h2>Tigre, ¿Quienes seran las victimas?</h2>
     <h3>Nombres</h3>
-    <div formArrayName="players">
+    <div formArrayName="players" cdk-overlay-origin #trigger="cdkOverlayOrigin">
         <div *ngFor="let player of players.controls; let i = index">
-          <ng-container #playerContainer>
-            <input
-                type="text"
-                [formControlName]="'' + i"
-            />
-          </ng-container>
+            <ng-container #playerContainer>
+                <input type="text" [formControlName]="'' + i" />
+            </ng-container>
         </div>
     </div>
 
@@ -27,6 +24,3 @@
     <br />
     <br />
 </form>
-<p>{{ configuracion.valid }}</p>
-
-<p>{{ configuracion.value | json }}</p>

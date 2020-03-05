@@ -8,6 +8,9 @@ import {
     QueryList,
     OnDestroy,
     ViewRef,
+    ViewChild,
+    ElementRef,
+    TemplateRef,
 } from '@angular/core';
 
 import {
@@ -19,7 +22,6 @@ import {
 } from '@angular/forms';
 import { DropItemComponent } from '../shared/drop-item/drop-item.component';
 import { Subscription } from 'rxjs';
-import { Router } from '@angular/router';
 import { GameConfigService } from '../services/game-config.service';
 
 interface PlayerInteraction {
@@ -44,11 +46,15 @@ export class GameConfigComponent implements OnInit, OnDestroy, AfterViewInit {
     playerSubscription: Subscription[];
     private playersCounter = 1;
 
+    isMenuOpen = false;
+
     configuracion: FormGroup;
     limitOfPlayers = 4;
 
     @ViewChildren('playerContainer', { read: ViewContainerRef })
     playerVCR: QueryList<ViewContainerRef>;
+
+    @ViewChild('overlayContainer') overlayContainer: ElementRef;
 
     private componentsReferences = [];
     private viewContainer: ViewRef;
@@ -68,9 +74,7 @@ export class GameConfigComponent implements OnInit, OnDestroy, AfterViewInit {
         private formBuilder: FormBuilder,
         private cfr: ComponentFactoryResolver,
         private gameConfigService: GameConfigService
-    ) {
-        console.log('ctor config');
-    }
+    ) {}
 
     private PlayerControlCtor(players: any[]) {
         let defaultPlayers = [];
@@ -118,7 +122,6 @@ export class GameConfigComponent implements OnInit, OnDestroy, AfterViewInit {
     }
 
     private asociateDropControl(viewContainer: ViewContainerRef) {
-        console.log('viewContainer', viewContainer, this.playerVCR);
         const playerControls = this.playerVCR.length - 2;
         if (this.playersCounter <= playerControls) {
             const factory = this.cfr.resolveComponentFactory(DropItemComponent);
@@ -187,9 +190,7 @@ export class GameConfigComponent implements OnInit, OnDestroy, AfterViewInit {
         if (this.configuracion.invalid) {
             return;
         }
-
-        // this.gameConfigService.start(this.configuracion.value);
-        this.gameConfigService.winner('miMismo');
+        this.gameConfigService.start(this.configuracion.value);
     }
 
     loadConfig() {

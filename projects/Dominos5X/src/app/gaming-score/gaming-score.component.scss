@@ -10,7 +10,6 @@ header {
 section {
     width: 95%;
     height: calc(95% - 10px);
-    background: lightblue;
     margin: auto;
     overflow: hidden;
     display: grid;
@@ -31,4 +30,34 @@ section {
 
 .four_players {
     grid-template-columns: 1fr 1fr 1fr 1fr;
+}
+
+.popup-wrap {
+    width: 70%;
+    height: 130px;
+    background-color: whitesmoke;
+    margin: auto;
+}
+
+.popup-wrap div {
+    margin: 5px auto;
+    padding: 3px;
+}
+
+.popup-wrap div:nth-child(1) {
+    text-align: center;
+    border-bottom: 1px solid lightgray;
+}
+
+.popup-wrap div span {
+    text-align: center;
+    display: block;
+    padding: 3px;
+}
+
+.popup-wrap div:nth-last-child(1) {
+    display: inline-block;
+    width: 25%;
+    margin-left: 70%;
+    margin-top: -7px;
 }

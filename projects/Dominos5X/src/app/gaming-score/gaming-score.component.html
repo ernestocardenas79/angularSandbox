@@ -2,6 +2,7 @@
     Puntos para Ganar Juego: <span>{{ config.winScore }}</span>
 </header>
 <section
+    #overlayContainer
     [class.four_players]="players.length == 4"
     [class.three_players]="players.length == 3"
     [class.default_players]="players.length == 2"
@@ -9,5 +10,20 @@
     <app-player-score
         *ngFor="let player of players"
         [nombre]="player"
+        [juegoTerminado]="gameStatus"
     ></app-player-score>
 </section>
+<ng-template #overlayGlobalTemplate let-player>
+    <div class="popup-wrap">
+        <div>hubo un ganador</div>
+        <div>
+            <span>The Winner is {{ player }},</span>
+            <span>wanna revange?</span>
+        </div>
+        <div>
+            <button type="button" class="button" (click)="closeModal()">
+                close
+            </button>
+        </div>
+    </div>
+</ng-template>

@@ -8,6 +8,7 @@ import { CommonModule } from '@angular/common';
 import { SharedModule } from './shared/shared.module';
 import { GamingScoreModule } from './gaming-score/gaming-score.module';
 import { GameConfigComponent } from './game-config/game-config.component';
+import { OverlayModule } from '@angular/cdk/overlay';
 
 @NgModule({
     declarations: [AppComponent, GameConfigComponent],
@@ -18,6 +19,7 @@ import { GameConfigComponent } from './game-config/game-config.component';
         AppRoutingModule,
         SharedModule,
         GamingScoreModule,
+        OverlayModule,
     ],
     providers: [],
     bootstrap: [AppComponent],
