@@ -51,7 +51,11 @@ export class GamingScoreComponent implements OnInit, AfterViewInit {
     closeModal() {
         this.gameStatus = true;
         this.gameConfigService.closeModal();
-        this.playerList.first.resetGame();
-        // this.playerList.forEach(p => p.resetGame());
+    }
+
+    restartGame() {
+        this.gameStatus = false;
+        this.gameConfigService.closeModal();
+        this.playerList.forEach(p => p.resetGame());
     }
 }

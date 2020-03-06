@@ -37,7 +37,7 @@ export class PlayerScoreComponent implements OnInit, AfterViewInit {
     juegoTerminado: boolean;
 
     @ViewChildren(ScoreCounterComponent)
-    scoreCounterList: QueryList<ComponentRef<ScoreCounterComponent>>;
+    scoreCounterList: QueryList<ScoreCounterComponent>;
 
     @ViewChildren('counterContainer', { read: ViewContainerRef })
     counterContainerVCR: QueryList<ViewContainerRef>;
@@ -53,6 +53,7 @@ export class PlayerScoreComponent implements OnInit, AfterViewInit {
 
     incrementarPuntaje() {
         if (this.puntos < this.config.winScore && !this.juegoTerminado) {
+            console.log('incrementarPuntaje', this.puntos);
             this.puntos += 5;
             this.instances.assignSlots(1);
         } else {
@@ -61,13 +62,17 @@ export class PlayerScoreComponent implements OnInit, AfterViewInit {
     }
 
     ngAfterViewInit() {
-        this.instances = this.scoreCounterList.first.instance;
+        this.instances = this.scoreCounterList.first;
         this.scoreCounterCollection = new Array<
             ComponentRef<ScoreCounterComponent>
         >();
-        this.scoreCounterCollection.push({
-            ...this.scoreCounterList.first,
-        } as ComponentRef<ScoreCounterComponent>);
+        console.log(
+            'ngAfterViewInit',
+            this.scoreCounterCollection,
+            this.scoreCounterList.first,
+            this.scoreCounterList,
+            this.instances
+        );
     }
 
     createCounter() {
@@ -84,11 +89,15 @@ export class PlayerScoreComponent implements OnInit, AfterViewInit {
         );
 
         this.instances = containerRef.instance;
+        this.scoreCounterCollection.push(containerRef);
     }
 
     resetGame() {
         this.puntos = 0;
 
         this.scoreCounterCollection.forEach(sc => sc.destroy());
+        const firstComponent = this.scoreCounterList.first;
+        firstComponent.completed = false;
+        firstComponent.assignedSlots = 0;
     }
 }

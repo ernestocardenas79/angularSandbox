@@ -19,9 +19,10 @@ export class GameConfigService {
     constructor(private router: Router, private overlay: Overlay) {
         this.gameConfig = {
             winScore: 55,
-            players: ['Ernesto', 'Fashi', 'Sheko', 'virotirno'],
+            players: ['Neto', 'Fafashi'],
         };
     }
+
     private gameConfig;
     private overlayContainer: ElementRef<any>;
     private templateGlobalPortals: TemplateRef<any>;
@@ -43,17 +44,20 @@ export class GameConfigService {
             width: '50%',
             positionStrategy: this.overlay
                 .position()
-                .flexibleConnectedTo(this.overlayContainer.nativeElement)
-                .withPositions([
-                    {
-                        originX: 'center',
-                        originY: 'center',
-                        overlayX: 'center',
-                        overlayY: 'top',
-                        offsetX: 0,
-                        offsetY: 0,
-                    },
-                ]),
+                // .flexibleConnectedTo(this.overlayContainer.nativeElement)
+                // .withPositions([
+                //     {
+                //         originX: 'center',
+                //         originY: 'center',
+                //         overlayX: 'center',
+                //         overlayY: 'top',
+                //         offsetX: 0,
+                //         offsetY: 0,
+                //     },
+                // ]),
+                .global()
+                .centerHorizontally()
+                .centerVertically(),
         });
         const overlayRef = this.overlay.create(config);
         overlayRef.attach(tmp);
