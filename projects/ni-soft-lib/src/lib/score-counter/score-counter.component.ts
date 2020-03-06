@@ -1,7 +1,6 @@
 import {
     Component,
     OnInit,
-    Input,
     Output,
     EventEmitter,
     ChangeDetectionStrategy,
@@ -31,7 +30,12 @@ export class ScoreCounterComponent implements OnInit {
             } else {
                 this.assignedSlots += ptos;
             }
+            console.log('assignedSlots', this.assignedSlots);
         }
+    }
+
+    get slots() {
+        return this.assignedSlots;
     }
 
     constructor() {}
