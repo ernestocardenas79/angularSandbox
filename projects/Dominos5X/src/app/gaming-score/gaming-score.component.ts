@@ -10,8 +10,6 @@ import {
     QueryList,
 } from '@angular/core';
 import { GameConfigService } from '../services/game-config.service';
-import { Overlay, OverlayRef, OverlayConfig } from '@angular/cdk/overlay';
-import { TemplatePortal } from '@angular/cdk/portal';
 import { PlayerScoreComponent } from './player-score/player-score.component';
 
 @Component({
@@ -55,6 +53,7 @@ export class GamingScoreComponent implements OnInit, AfterViewInit {
 
     restartGame() {
         this.gameStatus = false;
+        this.gameConfigService.restart();
         this.gameConfigService.closeModal();
         this.playerList.forEach(p => p.resetGame());
     }

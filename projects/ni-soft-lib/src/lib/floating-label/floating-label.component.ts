@@ -1,21 +1,34 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, forwardRef } from '@angular/core';
+import { NG_VALUE_ACCESSOR } from '@angular/forms';
 
 @Component({
-  selector: 'nisl-floating-label',
-  templateUrl: './floating-label.component.html',
-  styleUrls: ['./floating-label.component.css']
+    selector: 'nisl-floating-label',
+    templateUrl: './floating-label.component.html',
+    styleUrls: ['./floating-label.component.css'],
+    providers: [
+        {
+            provide: NG_VALUE_ACCESSOR,
+            useExisting: forwardRef(() => FloatingLabelComponent),
+            multi: true,
+        },
+    ],
 })
-export class FloatingLabelComponent implements OnInit {
+export class FloatingLabelComponent {
+    @Input()
+    type;
 
-  @Input()
-  type;
+    @Input()
+    label: string;
 
-  @Input()
-  label: string;
+    onChange = _ => {};
+    onTouched = () => {};
 
+    writeValue(obj: any): void {}
 
-  constructor() { }
-
-  ngOnInit() {
-  }
+    registerOnChange(fn: any): void {
+        this.onChange = fn;
+    }
+    registerOnTouched(fn: any): void {
+        this.onTouched = fn;
+    }
 }

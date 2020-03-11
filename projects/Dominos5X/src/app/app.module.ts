@@ -9,6 +9,7 @@ import { SharedModule } from './shared/shared.module';
 import { GamingScoreModule } from './gaming-score/gaming-score.module';
 import { GameConfigComponent } from './game-config/game-config.component';
 import { OverlayModule } from '@angular/cdk/overlay';
+import { NiSoftLibModule } from 'ni-soft-lib';
 
 @NgModule({
     declarations: [AppComponent, GameConfigComponent],
@@ -20,6 +21,7 @@ import { OverlayModule } from '@angular/cdk/overlay';
         SharedModule,
         GamingScoreModule,
         OverlayModule,
+        NiSoftLibModule,
     ],
     providers: [],
     bootstrap: [AppComponent],

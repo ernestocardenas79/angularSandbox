@@ -18,8 +18,8 @@ export class GameConfigService {
     }
     constructor(private router: Router, private overlay: Overlay) {
         this.gameConfig = {
-            winScore: 55,
-            players: ['Neto', 'Fafashi'],
+            winScore: 10,
+            players: ['neto', 'sheko'],
         };
     }
 
@@ -44,17 +44,6 @@ export class GameConfigService {
             width: '50%',
             positionStrategy: this.overlay
                 .position()
-                // .flexibleConnectedTo(this.overlayContainer.nativeElement)
-                // .withPositions([
-                //     {
-                //         originX: 'center',
-                //         originY: 'center',
-                //         overlayX: 'center',
-                //         overlayY: 'top',
-                //         offsetX: 0,
-                //         offsetY: 0,
-                //     },
-                // ]),
                 .global()
                 .centerHorizontally()
                 .centerVertically(),
@@ -68,6 +57,10 @@ export class GameConfigService {
         this.router.navigate(['score']);
 
         this.gameConfig = config;
+    }
+
+    restart() {
+        this.winnerPlayer = undefined;
     }
 
     setTemplate(

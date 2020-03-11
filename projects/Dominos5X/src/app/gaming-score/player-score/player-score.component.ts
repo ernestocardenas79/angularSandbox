@@ -10,8 +10,12 @@ import {
     ComponentFactoryResolver,
     AfterViewInit,
     ComponentRef,
+    OnDestroy,
+    ViewChild,
+    ChangeDetectorRef,
 } from '@angular/core';
-import { Subscription } from 'rxjs';
+import { Subscription, Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 import { GameConfigService } from '../../services/game-config.service';
 
 @Component({
@@ -19,16 +23,19 @@ import { GameConfigService } from '../../services/game-config.service';
     templateUrl: './player-score.component.html',
     styleUrls: ['./player-score.component.scss'],
 })
-export class PlayerScoreComponent implements OnInit, AfterViewInit {
+export class PlayerScoreComponent implements OnInit, AfterViewInit, OnDestroy {
     constructor(
         private cfr: ComponentFactoryResolver,
-        private gameConfigService: GameConfigService
+        private gameConfigService: GameConfigService,
+        private cdr: ChangeDetectorRef
     ) {}
+
     puntos = 0;
     instances: ScoreCounterComponent;
     completeSubscripton: Subscription;
     config;
     scoreCounterCollection: Array<ComponentRef<ScoreCounterComponent>>;
+    private unsubscribe$ = new Subject<void>();
 
     @Input()
     nombre: string;
@@ -39,8 +46,8 @@ export class PlayerScoreComponent implements OnInit, AfterViewInit {
     @ViewChildren(ScoreCounterComponent)
     scoreCounterList: QueryList<ScoreCounterComponent>;
 
-    @ViewChildren('counterContainer', { read: ViewContainerRef })
-    counterContainerVCR: QueryList<ViewContainerRef>;
+    @ViewChild('counterContainer', { read: ViewContainerRef })
+    counterContainerVCR: ViewContainerRef;
 
     @HostListener('click', ['$event.target'])
     onClick() {
@@ -49,11 +56,19 @@ export class PlayerScoreComponent implements OnInit, AfterViewInit {
 
     ngOnInit(): void {
         this.config = this.gameConfigService.loadConfig;
+
+        this.scoreCounterCollection = new Array<
+            ComponentRef<ScoreCounterComponent>
+        >();
+    }
+
+    ngOnDestroy() {
+        this.unsubscribe$.next();
+        this.unsubscribe$.complete();
     }
 
     incrementarPuntaje() {
         if (this.puntos < this.config.winScore && !this.juegoTerminado) {
-            console.log('incrementarPuntaje', this.puntos);
             this.puntos += 5;
             this.instances.assignSlots(1);
         } else {
@@ -62,31 +77,20 @@ export class PlayerScoreComponent implements OnInit, AfterViewInit {
     }
 
     ngAfterViewInit() {
-        this.instances = this.scoreCounterList.first;
-        this.scoreCounterCollection = new Array<
-            ComponentRef<ScoreCounterComponent>
-        >();
-        console.log(
-            'ngAfterViewInit',
-            this.scoreCounterCollection,
-            this.scoreCounterList.first,
-            this.scoreCounterList,
-            this.instances
-        );
+        this.createCounter();
+        this.cdr.detectChanges();
     }
 
     createCounter() {
         const factory = this.cfr.resolveComponentFactory(ScoreCounterComponent);
 
-        const containerRef = this.counterContainerVCR.last.createComponent(
-            factory
-        );
+        const containerRef = this.counterContainerVCR.createComponent(factory);
 
-        this.completeSubscripton = containerRef.instance.isCompleted.subscribe(
-            isCompleted => {
+        this.completeSubscripton = containerRef.instance.isCompleted
+            .pipe(takeUntil(this.unsubscribe$))
+            .subscribe(isCompleted => {
                 this.createCounter();
-            }
-        );
+            });
 
         this.instances = containerRef.instance;
         this.scoreCounterCollection.push(containerRef);
@@ -96,8 +100,9 @@ export class PlayerScoreComponent implements OnInit, AfterViewInit {
         this.puntos = 0;
 
         this.scoreCounterCollection.forEach(sc => sc.destroy());
-        const firstComponent = this.scoreCounterList.first;
-        firstComponent.completed = false;
-        firstComponent.assignedSlots = 0;
+
+        setTimeout(() => {
+            this.createCounter();
+        }, 200);
     }
 }
