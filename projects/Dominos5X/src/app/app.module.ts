@@ -17,7 +17,7 @@ import { GameConfigComponent } from './game-config/game-config.component';
         ReactiveFormsModule,
         AppRoutingModule,
         SharedModule,
-        GamingScoreModule
+        GamingScoreModule,
     ],
     providers: [],
     bootstrap: [AppComponent],

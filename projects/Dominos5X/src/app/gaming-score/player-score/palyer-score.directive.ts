@@ -9,20 +9,21 @@ import { ScoreCounterComponent } from '../../../../../ni-soft-lib/src/lib/score-
 @Directive({
     selector: 'app-player-score',
 })
-export class PalyerScoreDirective implements OnInit {
+export class PalyerScoreDirective {
     constructor(
         private view: ViewContainerRef,
         private resolver: ComponentFactoryResolver
     ) {}
-
+    /*
     ngOnInit() {
-        // console.log('directive');
-        // const factory = this.resolver.resolveComponentFactory(
-        //     ScoreCounterComponent
-        // );
-        // const scoreCounter = this.view.createComponent<ScoreCounterComponent>(
-        //     factory
-        // );
-        // scoreCounter.instance.puntos = 0;
+        console.log('directive');
+        const factory = this.resolver.resolveComponentFactory(
+            ScoreCounterComponent
+        );
+        const scoreCounter = this.view.createComponent<ScoreCounterComponent>(
+            factory
+        );
+        scoreCounter.instance.puntos = 1;
     }
+*/
 }

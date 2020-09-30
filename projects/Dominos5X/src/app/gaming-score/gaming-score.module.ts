@@ -5,6 +5,7 @@ import { CommonModule } from '@angular/common';
 import { PlayerScoreComponent } from './player-score/player-score.component';
 import { GamingScoreComponent } from './gaming-score.component';
 import { PalyerScoreDirective } from './player-score/palyer-score.directive';
+import { NiSoftLibModule } from 'ni-soft-lib';
 
 @NgModule({
     declarations: [
@@ -12,6 +13,6 @@ import { PalyerScoreDirective } from './player-score/palyer-score.directive';
         GamingScoreComponent,
         PalyerScoreDirective,
     ],
-    imports: [CommonModule],
+    imports: [CommonModule, NiSoftLibModule],
 })
 export class GamingScoreModule {}
