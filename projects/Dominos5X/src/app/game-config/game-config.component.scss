@@ -1,0 +1,23 @@
+:host {
+    padding-top: 5%;
+}
+
+form {
+    width: 80%;
+    height: 90%;
+    background: yellow;
+    margin: auto;
+}
+
+h1 {
+    text-align: center;
+}
+label {
+    display: inline-block;
+    width: 50%;
+}
+
+input[name='winScore'] {
+    display: inline-block;
+    width: 45%;
+}

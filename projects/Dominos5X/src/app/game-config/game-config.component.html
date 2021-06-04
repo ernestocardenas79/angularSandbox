@@ -1,0 +1,32 @@
+<form [formGroup]="configuracion">
+    <h1>Bienvenido</h1>
+    <h2>Tigre, ¿Quienes seran las victimas?</h2>
+    <h3>Nombres</h3>
+    <div formArrayName="players">
+        <div *ngFor="let player of players.controls; let i = index">
+          <ng-container #playerContainer>
+            <input
+                type="text"
+                [formControlName]="'' + i"
+            />
+          </ng-container>
+        </div>
+    </div>
+
+    <button
+        type="button"
+        (click)="AddPlayer()"
+        [disabled]="players?.controls.length > 3"
+    >
+        Agregar
+    </button>
+    <label for="winScore">Wining Score</label>
+    <input type="number" name="winScore" formControlName="winScore" />
+    <!-- [disabled]="!configuracion.valid" -->
+    <button type="button" (click)="startGame()">Iniciar</button>
+    <br />
+    <br />
+</form>
+<p>{{ configuracion.valid }}</p>
+
+<p>{{ configuracion.value | json }}</p>

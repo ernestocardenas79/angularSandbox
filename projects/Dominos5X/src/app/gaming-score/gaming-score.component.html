@@ -1,0 +1,7 @@
+<header>
+  Puntos para Ganar Juego: <span>{{config.winingScore}}</span>
+</header>
+<section [class.four_players]="players.length==4" [class.three_players]="players.length==3"
+  [class.default_players]="players.length==2">
+  <app-player-score *ngFor="let player of players"></app-player-score>
+</section>
