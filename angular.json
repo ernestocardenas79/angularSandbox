@@ -22,7 +22,6 @@
             "main": "projects/rick-morty-app/src/main.ts",
             "polyfills": "projects/rick-morty-app/src/polyfills.ts",
             "tsConfig": "projects/rick-morty-app/tsconfig.app.json",
-            "aot": true,
             "assets": [
               "projects/rick-morty-app/src/favicon.ico",
               "projects/rick-morty-app/src/assets"
@@ -31,7 +30,13 @@
               "projects/rick-morty-app/src/styles.scss",
               "node_modules/ngx-toastr/toastr.css"
             ],
-            "scripts": []
+            "scripts": [],
+            "vendorChunk": true,
+            "extractLicenses": false,
+            "buildOptimizer": false,
+            "sourceMap": true,
+            "optimization": false,
+            "namedChunks": true
           },
           "configurations": {
             "production": {
@@ -61,7 +66,8 @@
                 }
               ]
             }
-          }
+          },
+          "defaultConfiguration": ""
         },
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
@@ -139,7 +145,6 @@
             "main": "projects/Dominos5X/src/main.ts",
             "polyfills": "projects/Dominos5X/src/polyfills.ts",
             "tsConfig": "projects/Dominos5X/tsconfig.app.json",
-            "aot": true,
             "assets": [
               "projects/Dominos5X/src/favicon.ico",
               "projects/Dominos5X/src/assets"
@@ -147,7 +152,13 @@
             "styles": [
               "projects/Dominos5X/src/styles.scss"
             ],
-            "scripts": []
+            "scripts": [],
+            "vendorChunk": true,
+            "extractLicenses": false,
+            "buildOptimizer": false,
+            "sourceMap": true,
+            "optimization": false,
+            "namedChunks": true
           },
           "configurations": {
             "production": {
@@ -177,7 +188,8 @@
                 }
               ]
             }
-          }
+          },
+          "defaultConfiguration": ""
         },
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
