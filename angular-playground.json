@@ -1,9 +1,0 @@
-{
-  "sourceRoots": [
-    "./src",
-    "./projects/ni-soft-lib/src"
-  ],
-  "angularCli": {
-    "appName": "playground"
-  }
-}

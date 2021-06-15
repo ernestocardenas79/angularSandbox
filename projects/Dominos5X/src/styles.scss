@@ -84,13 +84,13 @@ time,
 mark,
 audio,
 video {
-    margin: 0;
-    padding: 0;
-    border: 0;
-    font-size: 100%;
-    font: inherit;
-    vertical-align: baseline;
-    box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-size: 100%;
+  font: inherit;
+  vertical-align: baseline;
+  box-sizing: border-box;
 }
 
 /* HTML5 display-role reset for older browsers */
@@ -105,72 +105,158 @@ hgroup,
 menu,
 nav,
 section {
-    display: block;
+  display: block;
 }
 body {
-    line-height: 1;
-    height: 100vh;
+  line-height: 1;
+  height: 100vh;
 }
 ol,
 ul {
-    list-style: none;
+  list-style: none;
 }
 blockquote,
 q {
-    quotes: none;
+  quotes: none;
 }
 blockquote:before,
 blockquote:after,
 q:before,
 q:after {
-    content: '';
-    content: none;
+  content: "";
+  content: none;
 }
 table {
-    border-collapse: collapse;
-    border-spacing: 0;
+  border-collapse: collapse;
+  border-spacing: 0;
 }
 
 router-outlet + * {
+  display: block;
+  position: relative;
+  margin: auto;
+  width: 50%;
+  height: 70%;
+  top: 15%;
+  background: white;
+  -webkit-box-shadow: 5px 5px 15px 5px #000000;
+  box-shadow: 5px 5px 15px 5px #000000;
+  background: radial-gradient(rgba(172, 170, 170, 0.61) 3px, transparent 4px),
+    radial-gradient(rgb(172, 170, 170, 0.3) 3px, transparent 4px),
+    linear-gradient(rgb(255, 255, 255.9) 4px, transparent 0),
+    linear-gradient(
+      45deg,
+      transparent 74px,
+      transparent 75px,
+      #a4a4a4 75px,
+      #a4a4a4 76px,
+      transparent 77px,
+      transparent 109px
+    ),
+    linear-gradient(
+      -45deg,
+      transparent 75px,
+      transparent 76px,
+      #a4a4a4 76px,
+      #a4a4a4 77px,
+      transparent 78px,
+      transparent 109px
+    ),
+    #fff;
+  background-size: 109px 109px, 109px 109px, 100% 6px, 109px 109px, 109px 109px;
+  background-position: 54px 55px, 0px 0px, 0px 0px, 0px 0px, 0px 0px;
+}
+
+.button {
+  display: inline-block;
+  padding: 0.4rem 1rem;
+  border: 0;
+  border-radius: 0.317rem;
+  background-color: #aaa;
+  color: #fff;
+  text-decoration: none;
+  font-weight: 700;
+  font-size: 1rem;
+  line-height: 1.5;
+  font-family: "Helvetica Neue", Arial, sans-serif;
+  cursor: pointer;
+  -webkit-appearance: none;
+  -webkit-font-smoothing: antialiased;
+}
+
+.button:hover {
+  opacity: 0.85;
+}
+
+.button:active {
+  box-shadow: inset 0 3px 4px hsla(0, 0%, 0%, 0.2);
+}
+
+.button:focus {
+  outline: thin dotted #444;
+  outline: 5px auto -webkit-focus-ring-color;
+  outline-offset: -2px;
+}
+
+.button_primary {
+  background-color: #1fa3ec;
+}
+
+.button_secondary {
+  background-color: #e98724;
+}
+
+.button-icon {
+  display: inline-block;
+  position: relative;
+  top: -0.1em;
+  vertical-align: middle;
+  margin-right: 0.317rem;
+}
+
+@import "~@angular/cdk/overlay-prebuilt.css";
+
+@media only screen and (max-width: 360px) {
+  router-outlet + * {
     display: block;
     position: relative;
     margin: auto;
-    width: 50%;
-    height: 70%;
-    top: 15%;
+    width: 100%;
+    height: 100%;
+    top: 0;
     background: white;
     -webkit-box-shadow: 5px 5px 15px 5px #000000;
     box-shadow: 5px 5px 15px 5px #000000;
     background: radial-gradient(rgba(172, 170, 170, 0.61) 3px, transparent 4px),
-        radial-gradient(rgb(172, 170, 170, 0.3) 3px, transparent 4px),
-        linear-gradient(rgb(255, 255, 255.9) 4px, transparent 0),
-        linear-gradient(
-            45deg,
-            transparent 74px,
-            transparent 75px,
-            #a4a4a4 75px,
-            #a4a4a4 76px,
-            transparent 77px,
-            transparent 109px
-        ),
-        linear-gradient(
-            -45deg,
-            transparent 75px,
-            transparent 76px,
-            #a4a4a4 76px,
-            #a4a4a4 77px,
-            transparent 78px,
-            transparent 109px
-        ),
-        #fff;
+      radial-gradient(rgb(172, 170, 170, 0.3) 3px, transparent 4px),
+      linear-gradient(rgb(255, 255, 255.9) 4px, transparent 0),
+      linear-gradient(
+        45deg,
+        transparent 74px,
+        transparent 75px,
+        #a4a4a4 75px,
+        #a4a4a4 76px,
+        transparent 77px,
+        transparent 109px
+      ),
+      linear-gradient(
+        -45deg,
+        transparent 75px,
+        transparent 76px,
+        #a4a4a4 76px,
+        #a4a4a4 77px,
+        transparent 78px,
+        transparent 109px
+      ),
+      #fff;
     background-size: 109px 109px, 109px 109px, 100% 6px, 109px 109px,
-        109px 109px;
+      109px 109px;
     background-position: 54px 55px, 0px 0px, 0px 0px, 0px 0px, 0px 0px;
-}
+  }
 
-.button {
+  .button {
     display: inline-block;
-    padding: 0.4rem 1rem;
+    padding: 0.2rem 0.5rem;
     border: 0;
     border-radius: 0.317rem;
     background-color: #aaa;
@@ -179,159 +265,65 @@ router-outlet + * {
     font-weight: 700;
     font-size: 1rem;
     line-height: 1.5;
-    font-family: 'Helvetica Neue', Arial, sans-serif;
+    font-family: "Helvetica Neue", Arial, sans-serif;
     cursor: pointer;
     -webkit-appearance: none;
     -webkit-font-smoothing: antialiased;
-}
-
-.button:hover {
-    opacity: 0.85;
-}
-
-.button:active {
-    box-shadow: inset 0 3px 4px hsla(0, 0%, 0%, 0.2);
-}
-
-.button:focus {
-    outline: thin dotted #444;
-    outline: 5px auto -webkit-focus-ring-color;
-    outline-offset: -2px;
-}
-
-.button_primary {
-    background-color: #1fa3ec;
-}
-
-.button_secondary {
-    background-color: #e98724;
-}
-
-.button-icon {
-    display: inline-block;
-    position: relative;
-    top: -0.1em;
-    vertical-align: middle;
-    margin-right: 0.317rem;
-}
-
-@import '~@angular/cdk/overlay';
-@include cdk-overlay();
-
-@media only screen and (max-width: 360px) {
-    router-outlet + * {
-        display: block;
-        position: relative;
-        margin: auto;
-        width: 100%;
-        height: 100%;
-        top: 0;
-        background: white;
-        -webkit-box-shadow: 5px 5px 15px 5px #000000;
-        box-shadow: 5px 5px 15px 5px #000000;
-        background: radial-gradient(
-                rgba(172, 170, 170, 0.61) 3px,
-                transparent 4px
-            ),
-            radial-gradient(rgb(172, 170, 170, 0.3) 3px, transparent 4px),
-            linear-gradient(rgb(255, 255, 255.9) 4px, transparent 0),
-            linear-gradient(
-                45deg,
-                transparent 74px,
-                transparent 75px,
-                #a4a4a4 75px,
-                #a4a4a4 76px,
-                transparent 77px,
-                transparent 109px
-            ),
-            linear-gradient(
-                -45deg,
-                transparent 75px,
-                transparent 76px,
-                #a4a4a4 76px,
-                #a4a4a4 77px,
-                transparent 78px,
-                transparent 109px
-            ),
-            #fff;
-        background-size: 109px 109px, 109px 109px, 100% 6px, 109px 109px,
-            109px 109px;
-        background-position: 54px 55px, 0px 0px, 0px 0px, 0px 0px, 0px 0px;
-    }
-
-    .button {
-        display: inline-block;
-        padding: 0.2rem 0.5rem;
-        border: 0;
-        border-radius: 0.317rem;
-        background-color: #aaa;
-        color: #fff;
-        text-decoration: none;
-        font-weight: 700;
-        font-size: 1rem;
-        line-height: 1.5;
-        font-family: 'Helvetica Neue', Arial, sans-serif;
-        cursor: pointer;
-        -webkit-appearance: none;
-        -webkit-font-smoothing: antialiased;
-    }
+  }
 }
 
 @media only screen and (min-width: 361px) and (max-width: 857px) {
-    router-outlet + * {
-        display: block;
-        position: relative;
-        margin: auto;
-        width: 80%;
-        height: 80%;
-        top: 10%;
-        background: white;
-        -webkit-box-shadow: 5px 5px 15px 5px #000000;
-        box-shadow: 5px 5px 15px 5px #000000;
-        background: radial-gradient(
-                rgba(172, 170, 170, 0.61) 3px,
-                transparent 4px
-            ),
-            radial-gradient(rgb(172, 170, 170, 0.3) 3px, transparent 4px),
-            linear-gradient(rgb(255, 255, 255.9) 4px, transparent 0),
-            linear-gradient(
-                45deg,
-                transparent 74px,
-                transparent 75px,
-                #a4a4a4 75px,
-                #a4a4a4 76px,
-                transparent 77px,
-                transparent 109px
-            ),
-            linear-gradient(
-                -45deg,
-                transparent 75px,
-                transparent 76px,
-                #a4a4a4 76px,
-                #a4a4a4 77px,
-                transparent 78px,
-                transparent 109px
-            ),
-            #fff;
-        background-size: 109px 109px, 109px 109px, 100% 6px, 109px 109px,
-            109px 109px;
-        background-position: 54px 55px, 0px 0px, 0px 0px, 0px 0px, 0px 0px;
-    }
+  router-outlet + * {
+    display: block;
+    position: relative;
+    margin: auto;
+    width: 80%;
+    height: 80%;
+    top: 10%;
+    background: white;
+    -webkit-box-shadow: 5px 5px 15px 5px #000000;
+    box-shadow: 5px 5px 15px 5px #000000;
+    background: radial-gradient(rgba(172, 170, 170, 0.61) 3px, transparent 4px),
+      radial-gradient(rgb(172, 170, 170, 0.3) 3px, transparent 4px),
+      linear-gradient(rgb(255, 255, 255.9) 4px, transparent 0),
+      linear-gradient(
+        45deg,
+        transparent 74px,
+        transparent 75px,
+        #a4a4a4 75px,
+        #a4a4a4 76px,
+        transparent 77px,
+        transparent 109px
+      ),
+      linear-gradient(
+        -45deg,
+        transparent 75px,
+        transparent 76px,
+        #a4a4a4 76px,
+        #a4a4a4 77px,
+        transparent 78px,
+        transparent 109px
+      ),
+      #fff;
+    background-size: 109px 109px, 109px 109px, 100% 6px, 109px 109px,
+      109px 109px;
+    background-position: 54px 55px, 0px 0px, 0px 0px, 0px 0px, 0px 0px;
+  }
 
-    .button {
-        display: inline-block;
-        padding: 0.2rem 0.5rem;
-        border: 0;
-        border-radius: 0.317rem;
-        background-color: #aaa;
-        color: #fff;
-        text-decoration: none;
-        font-weight: 700;
-        font-size: 1rem;
-        line-height: 1.5;
-        font-family: 'Helvetica Neue', Arial, sans-serif;
-        cursor: pointer;
-        -webkit-appearance: none;
-        -webkit-font-smoothing: antialiased;
-    }
+  .button {
+    display: inline-block;
+    padding: 0.2rem 0.5rem;
+    border: 0;
+    border-radius: 0.317rem;
+    background-color: #aaa;
+    color: #fff;
+    text-decoration: none;
+    font-weight: 700;
+    font-size: 1rem;
+    line-height: 1.5;
+    font-family: "Helvetica Neue", Arial, sans-serif;
+    cursor: pointer;
+    -webkit-appearance: none;
+    -webkit-font-smoothing: antialiased;
+  }
 }

@@ -1,18 +1,15 @@
 :host {
-    display: block;
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
-        Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
-        'Segoe UI Symbol';
-    font-size: 14px;
-    color: #333;
-    box-sizing: border-box;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    height: 100%;
-    background: yellow url('/assets/Dominos5X_backround_1200x1900.jpg')
-        no-repeat;
-    background-size: cover;
-    background: gray;
+  display: block;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica,
+    Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+  font-size: 14px;
+  color: #333;
+  box-sizing: border-box;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  height: 100%;
+  background: yellow url("/assets/domino-background.jpg") no-repeat;
+  background-size: cover;
 }
 
 h1,
@@ -21,21 +18,21 @@ h3,
 h4,
 h5,
 h6 {
-    margin: 8px 0;
+  margin: 8px 0;
 }
 
 p {
-    margin: 0;
+  margin: 0;
 }
 
 footer {
-    margin-top: 8px;
-    display: flex;
-    align-items: center;
-    line-height: 20px;
+  margin-top: 8px;
+  display: flex;
+  align-items: center;
+  line-height: 20px;
 }
 
 footer a {
-    display: flex;
-    align-items: center;
+  display: flex;
+  align-items: center;
 }

@@ -9,21 +9,21 @@ import { SharedModule } from './shared/shared.module';
 import { GamingScoreModule } from './gaming-score/gaming-score.module';
 import { GameConfigComponent } from './game-config/game-config.component';
 import { OverlayModule } from '@angular/cdk/overlay';
-import { NiSoftLibModule } from 'ni-soft-lib';
+import { NiSoftLibModule } from 'projects/ni-soft-lib/src/public-api';
 
 @NgModule({
-    declarations: [AppComponent, GameConfigComponent],
-    imports: [
-        BrowserModule,
-        CommonModule,
-        ReactiveFormsModule,
-        AppRoutingModule,
-        SharedModule,
-        GamingScoreModule,
-        OverlayModule,
-        NiSoftLibModule,
-    ],
-    providers: [],
-    bootstrap: [AppComponent],
+  declarations: [AppComponent, GameConfigComponent],
+  imports: [
+    BrowserModule,
+    CommonModule,
+    ReactiveFormsModule,
+    AppRoutingModule,
+    SharedModule,
+    GamingScoreModule,
+    OverlayModule,
+    NiSoftLibModule,
+  ],
+  providers: [],
+  bootstrap: [AppComponent],
 })
 export class AppModule {}

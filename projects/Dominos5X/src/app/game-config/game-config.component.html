@@ -1,14 +1,13 @@
 <form [formGroup]="configuracion">
     <h1>Bienvenido</h1>
     <h2>Tigre, ¿Quienes seran las victimas?</h2>
-    <h3>Nombres</h3>
+    <h3>Nombres de lo jugadores</h3>
     <div formArrayName="players" cdk-overlay-origin #trigger="cdkOverlayOrigin">
-        <div *ngFor="let player of players.controls">
+        <div *ngFor="let _ of players.controls; index as i">
             <ng-container #playerContainer>
                 <div class="group">
-                    <input type="text" [formControl]="player" />
+                    <input type="text" [formControlName]="i" />
                     <span class="highlight"></span><span class="bar"></span>
-                    <label>Jugador</label>
                 </div>
             </ng-container>
         </div>
@@ -23,10 +22,8 @@
     </button>
     <label for="winScore">Wining Score</label>
     <input type="number" name="winScore" formControlName="winScore" />
-    <!-- [disabled]="!configuracion.valid" -->
-    <button type="button" (click)="startGame()">Iniciar</button>
+    <button type="button" (click)="startGame()" [disabled]="!configuracion.valid">Iniciar</button>
     <br />
     <br />
 </form>
 
-{{ configuracion.value | json }}

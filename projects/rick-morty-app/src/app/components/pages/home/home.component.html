@@ -1,0 +1,6 @@
+<section class="character__list">
+  <rm-character-card
+    *ngFor="let character of characterFav$ | async"
+    [character]="character"
+  ></rm-character-card>
+</section>

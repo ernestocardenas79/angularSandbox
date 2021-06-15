@@ -1,31 +1,32 @@
 {
   "compileOnSave": false,
   "compilerOptions": {
-    "baseUrl": "./",
     "outDir": "./dist/out-tsc",
+    "baseUrl": "./",
     "sourceMap": true,
+    "paths":{
+      "@RickMorty/App/*":["projects/rick-morty-app/src/app/*"],
+      "@RickMorty/shared/*":["projects/rick-morty-app/src/app/shared/*"],
+      "@RickMorty/characters/*":["projects/rick-morty-app/src/app/components/pages/characters/*"],
+      "@RickMorty/pages/*":["projects/rick-morty-app/src/app/components/pages/*"],
+      "@RickMorty/environments":["projects/rick-morty-app/src/environments/*"]
+    },
     "declaration": false,
     "downlevelIteration": true,
     "experimentalDecorators": true,
-    "module": "esnext",
     "moduleResolution": "node",
     "importHelpers": true,
     "target": "es2015",
-    "typeRoots": [
-      "node_modules/@types"
-    ],
+    "module": "es2020",
     "lib": [
       "es2018",
-      "dom"
+      "dom",
+      "esnext.asynciterable"
     ],
-    "paths": {
-      "ni-soft-lib": [
-        "projects/ni-soft-lib/src/public-api.ts"
-      ]
-    }
+    "allowSyntheticDefaultImports": true
   },
   "angularCompilerOptions": {
-    "fullTemplateTypeCheck": true,
-    "strictInjectionParameters": true
+    "enableI18nLegacyMessageIdFormat": false,
+    "strictTemplates": true
   }
 }

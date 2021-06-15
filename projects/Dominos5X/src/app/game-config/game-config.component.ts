@@ -1,225 +1,212 @@
 import {
-    Component,
-    OnInit,
-    ViewContainerRef,
-    AfterViewInit,
-    ComponentFactoryResolver,
-    ViewChildren,
-    QueryList,
-    OnDestroy,
-    ViewRef,
-    ViewChild,
-    ElementRef,
-    TemplateRef,
+  Component,
+  OnInit,
+  ViewContainerRef,
+  AfterViewInit,
+  ComponentFactoryResolver,
+  ViewChildren,
+  QueryList,
+  OnDestroy,
+  ViewRef,
+  ViewChild,
+  ElementRef,
 } from '@angular/core';
 
 import {
-    FormBuilder,
-    FormControl,
-    Validators,
-    FormGroup,
-    FormArray,
+  FormBuilder,
+  FormControl,
+  Validators,
+  FormGroup,
+  FormArray,
 } from '@angular/forms';
 import { DropItemComponent } from '../shared/drop-item/drop-item.component';
 import { Subscription } from 'rxjs';
 import { GameConfigService } from '../services/game-config.service';
 
 interface PlayerInteraction {
-    susbcription: Subscription;
-    viewRef: ViewRef;
+  susbcription: Subscription;
+  viewRef: ViewRef;
 }
 
 @Component({
-    selector: 'app-game-config',
-    templateUrl: './game-config.component.html',
-    styleUrls: ['./game-config.component.scss'],
+  selector: 'app-game-config',
+  templateUrl: './game-config.component.html',
+  styleUrls: ['./game-config.component.scss'],
 })
 export class GameConfigComponent implements OnInit, OnDestroy, AfterViewInit {
-    playerVCRSubscription: Subscription;
-    playerCollection: {
-        [id: number]: {
-            subscription;
-            viewRef;
-            position: number;
-        };
-    } = {};
-    playerSubscription: Subscription[];
-    private playersCounter = 1;
+  playerVCRSubscription: Subscription;
+  playerCollection: {
+    [id: number]: {
+      subscription;
+      viewRef;
+      position: number;
+    };
+  } = {};
+  playerSubscription: Subscription[];
+  private playersCounter = 1;
 
-    isMenuOpen = false;
+  isMenuOpen = false;
 
-    configuracion: FormGroup;
-    limitOfPlayers = 4;
+  configuracion: FormGroup;
+  limitOfPlayers = 4;
 
-    @ViewChildren('playerContainer', { read: ViewContainerRef })
-    playerVCR: QueryList<ViewContainerRef>;
+  @ViewChildren('playerContainer', { read: ViewContainerRef })
+  playerVCR: QueryList<ViewContainerRef>;
 
-    @ViewChild('overlayContainer') overlayContainer: ElementRef;
+  @ViewChild('overlayContainer') overlayContainer: ElementRef;
 
-    private componentsReferences = [];
-    private viewContainer: ViewRef;
-    private pendigControl = false;
+  private componentsReferences = [];
+  private viewContainer: ViewRef;
+  private pendigControl = false;
 
-    ngOnDestroy(): void {
-        this.playerVCRSubscription.unsubscribe();
-        this.unsubscribeAllPlayers();
+  ngOnDestroy(): void {
+    this.playerVCRSubscription.unsubscribe();
+    this.unsubscribeAllPlayers();
+  }
+
+  ngOnInit() {
+    this.playerSubscription = [];
+    this.loadConfig();
+  }
+
+  constructor(
+    private formBuilder: FormBuilder,
+    private cfr: ComponentFactoryResolver,
+    private gameConfigService: GameConfigService
+  ) {}
+
+  private PlayerControlCtor(players: any[]) {
+    let defaultPlayers = [];
+
+    if (players) {
+      players.forEach((player) => {
+        defaultPlayers.push(new FormControl(player, Validators.required));
+      });
+
+      this.pendigControl = true;
+    } else {
+      defaultPlayers = [
+        new FormControl('', Validators.required),
+        new FormControl('', Validators.required),
+      ];
+      this.pendigControl = false;
     }
+    return defaultPlayers;
+  }
 
-    ngOnInit() {
-        this.playerSubscription = [];
-        this.loadConfig();
+  get players(): FormArray {
+    return this.configuracion.get('players') as FormArray;
+  }
+
+  AddPlayer(name?: string) {
+    if (this.players.controls.length < 4) {
+      const newControl = new FormControl(name ? name : '', Validators.required);
+      this.players.push(newControl);
+    } else {
+      alert('El numero maximo de jugadores es 4');
     }
+  }
 
-    constructor(
-        private formBuilder: FormBuilder,
-        private cfr: ComponentFactoryResolver,
-        private gameConfigService: GameConfigService
-    ) {}
+  ngAfterViewInit() {
+    this.playerVCRSubscription = this.playerVCR.changes.subscribe(
+      (i: QueryList<ViewContainerRef>) => {
+        this.asociateDropControl(this.playerVCR.last);
+      }
+    );
+  }
 
-    private PlayerControlCtor(players: any[]) {
-        let defaultPlayers = [];
+  private asociateDropControl(viewContainer: ViewContainerRef) {
+    const playerControls = this.playerVCR.length - 2;
+    if (this.playersCounter <= playerControls) {
+      const factory = this.cfr.resolveComponentFactory(DropItemComponent);
 
-        if (players) {
-            players.forEach(player => {
-                defaultPlayers.push(
-                    new FormControl(player, Validators.required)
-                );
-            });
+      const containerRef = viewContainer.createComponent(factory);
 
-            this.pendigControl = true;
-        } else {
-            defaultPlayers = [
-                new FormControl('', Validators.required),
-                new FormControl('', Validators.required),
-            ];
-            this.pendigControl = false;
-        }
-        return defaultPlayers;
+      const currentComponent = containerRef.instance;
+
+      const playerNumber = playerControls + 1;
+      currentComponent.referencia = playerNumber;
+      currentComponent.selfRef = currentComponent;
+
+      this.playerCollection[playerNumber] = {
+        subscription: {},
+        viewRef: {},
+        position: 0,
+      };
+
+      this.playerCollection[playerNumber].subscription =
+        containerRef.instance.deleteItem.subscribe((player) => {
+          this.deletePlayer(player);
+        });
+
+      const viewRef = viewContainer.get(viewContainer.length - 1);
+
+      this.playerCollection[playerNumber].viewRef = viewRef;
+      this.playerCollection[playerNumber].position = playerNumber;
+
+      this.playersCounter = playerControls;
+    } else {
+      this.playersCounter = playerControls;
     }
+  }
 
-    get players(): FormArray {
-        return this.configuracion.get('players') as FormArray;
+  deletePlayer(player) {
+    const playerControls = this.playerVCR.length - 2;
+
+    setTimeout(() => {
+      this.playerCollection[player].viewRef.destroy();
+      this.playerCollection[player].subscription.unsubscribe();
+
+      let indexCollection = player;
+      for (let index = player; index <= playerControls; index++) {
+        indexCollection++;
+        try {
+          this.playerCollection[indexCollection].position =
+            this.playerCollection[indexCollection].position - 1;
+        } catch (error) {}
+      }
+      this.players.removeAt(this.playerCollection[player].position);
+      delete this.playerCollection[player];
+    }, 300);
+  }
+
+  unsubscribeAllPlayers() {
+    // tslint:disable-next-line: forin
+    for (const player in this.playerCollection) {
+      this.playerCollection[player].subscription.unsubscribe();
     }
+  }
 
-    AddPlayer(name?: string) {
-        if (this.players.controls.length < 4) {
-            const newControl = new FormControl(
-                name ? name : '',
-                Validators.required
-            );
-            this.players.push(newControl);
-        } else {
-            alert('El numero maximo de jugadores es 4');
-        }
+  startGame() {
+    if (this.configuracion.invalid) {
+      return;
     }
+    this.gameConfigService.start(this.configuracion.value);
+  }
 
-    ngAfterViewInit() {
-        this.playerVCRSubscription = this.playerVCR.changes.subscribe(
-            (i: QueryList<ViewContainerRef>) => {
-                this.asociateDropControl(this.playerVCR.last);
-            }
-        );
-    }
+  loadConfig() {
+    const { winScore, players } = this.gameConfigService.loadConfig;
 
-    private asociateDropControl(viewContainer: ViewContainerRef) {
-        const playerControls = this.playerVCR.length - 2;
-        if (this.playersCounter <= playerControls) {
-            const factory = this.cfr.resolveComponentFactory(DropItemComponent);
+    if (!players) {
+      this.configuracion = this.formBuilder.group({
+        winScore: [winScore, Validators.required],
+        players: this.formBuilder.array(this.PlayerControlCtor(players)),
+      });
+    } else {
+      const firstsPlayers = [];
+      firstsPlayers.push(players[0]);
+      firstsPlayers.push(players[1]);
 
-            const containerRef = viewContainer.createComponent(factory);
+      this.configuracion = this.formBuilder.group({
+        winScore: [winScore, Validators.required],
+        players: this.formBuilder.array(this.PlayerControlCtor(firstsPlayers)),
+      });
 
-            const currentComponent = containerRef.instance;
-
-            const playerNumber = playerControls + 1;
-            currentComponent.referencia = playerNumber;
-            currentComponent.selfRef = currentComponent;
-
-            this.playerCollection[playerNumber] = {
-                subscription: {},
-                viewRef: {},
-                position: 0,
-            };
-
-            this.playerCollection[
-                playerNumber
-            ].subscription = containerRef.instance.deleteItem.subscribe(
-                player => {
-                    this.deletePlayer(player);
-                }
-            );
-
-            const viewRef = viewContainer.get(viewContainer.length - 1);
-
-            this.playerCollection[playerNumber].viewRef = viewRef;
-            this.playerCollection[playerNumber].position = playerNumber;
-
-            this.playersCounter = playerControls;
-        } else {
-            this.playersCounter = playerControls;
-        }
-    }
-
-    deletePlayer(player) {
-        const playerControls = this.playerVCR.length - 2;
-
+      for (let index = 2; index < players.length; index++) {
         setTimeout(() => {
-            this.playerCollection[player].viewRef.destroy();
-            this.playerCollection[player].subscription.unsubscribe();
-
-            let indexCollection = player;
-            for (let index = player; index <= playerControls; index++) {
-                indexCollection++;
-                try {
-                    this.playerCollection[indexCollection].position =
-                        this.playerCollection[indexCollection].position - 1;
-                } catch (error) {}
-            }
-            this.players.removeAt(this.playerCollection[player].position);
-            delete this.playerCollection[player];
-        }, 300);
+          this.AddPlayer(players[index]);
+        }, 0);
+      }
     }
-
-    unsubscribeAllPlayers() {
-        // tslint:disable-next-line: forin
-        for (const player in this.playerCollection) {
-            this.playerCollection[player].subscription.unsubscribe();
-        }
-    }
-
-    startGame() {
-        if (this.configuracion.invalid) {
-            return;
-        }
-        this.gameConfigService.start(this.configuracion.value);
-    }
-
-    loadConfig() {
-        const { winScore, players } = this.gameConfigService.loadConfig;
-
-        if (!players) {
-            this.configuracion = this.formBuilder.group({
-                winScore: [winScore, Validators.required],
-                players: this.formBuilder.array(
-                    this.PlayerControlCtor(players)
-                ),
-            });
-        } else {
-            const firstsPlayers = [];
-            firstsPlayers.push(players[0]);
-            firstsPlayers.push(players[1]);
-
-            this.configuracion = this.formBuilder.group({
-                winScore: [winScore, Validators.required],
-                players: this.formBuilder.array(
-                    this.PlayerControlCtor(firstsPlayers)
-                ),
-            });
-
-            for (let index = 2; index < players.length; index++) {
-                setTimeout(() => {
-                    this.AddPlayer(players[index]);
-                }, 0);
-            }
-        }
-    }
+  }
 }
