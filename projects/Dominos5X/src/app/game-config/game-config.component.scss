@@ -1,22 +1,103 @@
-:host {
-    padding-top: 5%;
+app-drop-item > span {
+  color: blue;
 }
 
 form {
-    width: 80%;
-    height: 90%;
-    margin: auto;
+  width: 80%;
+  margin: auto;
+  background-color: red;
+  height: 80%;
+  display: grid;
+  grid-template-rows: 1fr 13%;
 }
+
+.form-input {
+  position: relative;
+  font-family: "Source Sans Pro", sans-serif;
+  font-weight: 600;
+  width: 100%;
+  height: 40px;
+  border: none;
+  padding: 0 10px;
+  box-shadow: none;
+  outline: none;
+  -webkit-transition: all 0.5s ease;
+  -moz-transition: all 0.5s ease;
+  -ms-transition: all 0.5s ease;
+  -o-transition: all 0.5s ease;
+  transition: all 0.5s ease;
+}
+
+.form-input.basic {
+  border: 2px solid rgba(0, 0, 0, 0.15);
+}
+
+.form-input.basic:hover {
+  border-color: rgba(0, 0, 0, 0.35);
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+}
+
+.form-input.basic:focus {
+  border-color: #4285f4;
+  box-shadow: 0 0 10px rgba(66, 133, 244, 0.5);
+}
+
+.form-input.basic.shadow-inset:hover {
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.2) inset;
+}
+
+.form-input.basic.shadow-inset:focus {
+  box-shadow: 0 0 10px rgba(66, 133, 244, 0.5) inset;
+}
+.form-input.smooth-corner {
+  border-radius: 5px;
+}
+
+.form-input-group {
+  display: flex;
+}
+
+.game-config {
+  display: grid;
+  height: 100%;
+  grid-template-rows: 20% 1fr;
+  background-color: blue;
+}
+
+.game-score {
+  display: flex;
+  flex-direction: column;
+}
+
+// .game-score input {
+//   width: 30%;
+// }
+
+// .game-score label {
+//   display: inline-block;
+//   width: 30%;
+// }
 
 h1 {
-    text-align: center;
-}
-label {
-    display: inline-block;
-    width: 50%;
+  text-align: center;
+  margin: 15px;
 }
 
-input[name='winScore'] {
-    display: inline-block;
-    width: 45%;
+h2 {
+  text-align: center;
+  padding-bottom: 10px;
+  padding-left: 10px;
+  background-color: white;
+  margin: auto;
+  width: 80%;
+}
+
+:host {
+  padding-top: 1%;
+  padding-bottom: 1%;
+}
+
+label {
+  display: inline-block;
+  width: 50%;
 }

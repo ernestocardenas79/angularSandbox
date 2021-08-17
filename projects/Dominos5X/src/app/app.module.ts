@@ -10,6 +10,7 @@ import { GamingScoreModule } from './gaming-score/gaming-score.module';
 import { GameConfigComponent } from './game-config/game-config.component';
 import { OverlayModule } from '@angular/cdk/overlay';
 import { NiSoftLibModule } from 'projects/ni-soft-lib/src/public-api';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 @NgModule({
   declarations: [AppComponent, GameConfigComponent],
@@ -22,6 +23,7 @@ import { NiSoftLibModule } from 'projects/ni-soft-lib/src/public-api';
     GamingScoreModule,
     OverlayModule,
     NiSoftLibModule,
+    FontAwesomeModule,
   ],
   providers: [],
   bootstrap: [AppComponent],

@@ -1,29 +1,47 @@
-<form [formGroup]="configuracion">
+<div class="game-config">
+  <div>
     <h1>Bienvenido</h1>
     <h2>Tigre, ¿Quienes seran las victimas?</h2>
-    <h3>Nombres de lo jugadores</h3>
-    <div formArrayName="players" cdk-overlay-origin #trigger="cdkOverlayOrigin">
-        <div *ngFor="let _ of players.controls; index as i">
-            <ng-container #playerContainer>
-                <div class="group">
-                    <input type="text" [formControlName]="i" />
-                    <span class="highlight"></span><span class="bar"></span>
-                </div>
-            </ng-container>
-        </div>
-    </div>
-
     <button
-        type="button"
-        (click)="AddPlayer()"
-        [disabled]="players?.controls.length > 3"
+      type="button"
+      (click)="AddPlayer()"
+      [disabled]="players?.controls.length > 3"
     >
-        Agregar
+      Agregar
     </button>
-    <label for="winScore">Wining Score</label>
-    <input type="number" name="winScore" formControlName="winScore" />
-    <button type="button" (click)="startGame()" [disabled]="!configuracion.valid">Iniciar</button>
-    <br />
-    <br />
-</form>
-
+  </div>
+  <form class="form-config" [formGroup]="configuracion">
+    <div formArrayName="players" cdk-overlay-origin #trigger="cdkOverlayOrigin">
+      <div
+        class="form-input-group"
+        *ngFor="let _ of players.controls; index as i"
+      >
+        <ng-container #playerContainer>
+          <input
+            [formControlName]="i"
+            type="text"
+            class="form-input basic smooth-corner shadow-inset"
+            placeholder="Good Luck, Loooser"
+          />
+        </ng-container>
+      </div>
+    </div>
+    <div class="game-score">
+      <label for="winScore">Wining Score</label>
+      <input
+        type="number"
+        class="form-input basic smooth-corner shadow-inset"
+        name="winScore"
+        formControlName="winScore"
+      />
+      <button
+        type="button"
+        class="button"
+        (click)="startGame()"
+        [disabled]="!configuracion.valid"
+      >
+        Iniciar
+      </button>
+    </div>
+  </form>
+</div>
