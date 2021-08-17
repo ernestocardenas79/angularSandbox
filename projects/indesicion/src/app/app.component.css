@@ -1,0 +1,44 @@
+:host {
+  background-color: black;
+  background-image: url("https://yesno.wtf/assets/yes/8-2f93962e2ab24427df8589131da01a4d.gif");
+  background-size: cover;
+  color: white;
+  display: block;
+  height: 100vh;
+  width: 100vw;
+  position: absolute;
+  top: 0;
+}
+
+div#answer {
+  align-items: center;
+  display: flex;
+  height: 100%;
+  justify-content: center;
+}
+
+div#question {
+  position: absolute;
+  width: 100vw;
+}
+
+input {
+  display: block;
+  margin: 50px auto 10px auto;
+  width: 70%;
+  height: 50px;
+  border-radius: 30px;
+  font-weight: 600;
+  font-size: 1.5rem;
+  padding-left: 25px;
+  outline: none;
+}
+
+em {
+  background-color: lightcyan;
+  color: gray;
+  text-align: center;
+  font-weight: 600;
+  font-size: 1.5rem;
+  margin-left: 35%;
+}
