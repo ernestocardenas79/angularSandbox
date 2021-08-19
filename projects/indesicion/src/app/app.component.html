@@ -1,11 +1,15 @@
 <div id="question">
   <input
     type="text"
+    #questionElement
     placeholder="¿Que quieres saber?.... Pregntamee!!!!  Preguntameeee!!!!"
+    appDetectQuestion
+    (launchQuestion)="launchQuestion()"
   />
   <em>Recuerda terminar la pregunta con "?"</em>
 </div>
 
 <div id="answer">
-  <h1>YES!!!</h1>
+  <h1>{{ yesNoAnswer?.question }}</h1>
+  <h2>{{ yesNoAnswer?.answer }}</h2>
 </div>
