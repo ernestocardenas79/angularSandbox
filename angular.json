@@ -746,6 +746,107 @@
                     }
                 }
             }
+        },
+        "journal": {
+            "projectType": "application",
+            "schematics": {
+                "@schematics/angular:component": {
+                    "style": "scss"
+                },
+                "@schematics/angular:application": {
+                    "strict": true
+                }
+            },
+            "root": "projects/journal",
+            "sourceRoot": "projects/journal/src",
+            "prefix": "app",
+            "architect": {
+                "build": {
+                    "builder": "@angular-devkit/build-angular:browser",
+                    "options": {
+                        "outputPath": "dist/journal",
+                        "index": "projects/journal/src/index.html",
+                        "main": "projects/journal/src/main.ts",
+                        "polyfills": "projects/journal/src/polyfills.ts",
+                        "tsConfig": "projects/journal/tsconfig.app.json",
+                        "assets": [
+                            "projects/journal/src/favicon.ico",
+                            "projects/journal/src/assets"
+                        ],
+                        "styles": [
+                            "projects/journal/src/styles.scss"
+                        ],
+                        "scripts": []
+                    },
+                    "configurations": {
+                        "production": {
+                            "budgets": [
+                                {
+                                    "type": "initial",
+                                    "maximumWarning": "500kb",
+                                    "maximumError": "1mb"
+                                },
+                                {
+                                    "type": "anyComponentStyle",
+                                    "maximumWarning": "2kb",
+                                    "maximumError": "4kb"
+                                }
+                            ],
+                            "fileReplacements": [
+                                {
+                                    "replace": "projects/journal/src/environments/environment.ts",
+                                    "with": "projects/journal/src/environments/environment.prod.ts"
+                                }
+                            ],
+                            "outputHashing": "all"
+                        },
+                        "development": {
+                            "buildOptimizer": false,
+                            "optimization": false,
+                            "vendorChunk": true,
+                            "extractLicenses": false,
+                            "sourceMap": true,
+                            "namedChunks": true
+                        }
+                    },
+                    "defaultConfiguration": "production"
+                },
+                "serve": {
+                    "builder": "@angular-devkit/build-angular:dev-server",
+                    "configurations": {
+                        "production": {
+                            "browserTarget": "journal:build:production"
+                        },
+                        "development": {
+                            "browserTarget": "journal:build:development"
+                        }
+                    },
+                    "defaultConfiguration": "development"
+                },
+                "extract-i18n": {
+                    "builder": "@angular-devkit/build-angular:extract-i18n",
+                    "options": {
+                        "browserTarget": "journal:build"
+                    }
+                },
+                "test": {
+                    "builder": "@angular-devkit/build-angular:karma",
+                    "options": {
+                        "main": "projects/journal/src/test.ts",
+                        "polyfills": "projects/journal/src/polyfills.ts",
+                        "tsConfig": "projects/journal/tsconfig.spec.json",
+                        "karmaConfig": "projects/journal/karma.conf.js",
+                        "assets": [
+                            "projects/journal/src/favicon.ico",
+                            "projects/journal/src/assets"
+                        ],
+                        "styles": [
+                            "projects/journal/src/styles.scss"
+                        ],
+                        "scripts": []
+                    }
+                }
+            }
         }
     },
     "defaultProject": "indesicion",
