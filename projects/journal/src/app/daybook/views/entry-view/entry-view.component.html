@@ -5,7 +5,7 @@
     <span class="mx-2 fs-4 fw-light">{{ yearDay }}</span>
   </div>
   <div>
-    <button class="btn btn-danger mx-2">
+    <button class="btn btn-danger mx-2" (click)="deleteEntry()">
       Borrar
       <i class="fa fa-trash-alt"></i>
     </button>
@@ -19,12 +19,16 @@
     #imagefile
     type="file"
     (change)="onSelectedImage($event)"
-    accept="image/png, image/jpeg"
+    accept="image/png, image/jpeg, image/jpg"
   />
 </div>
 <hr />
 <div class="d-flex flex-column px-3 h-75">
-  <textarea placeholder="¿Qué sucedió hoy?" [value]="entry?.text"></textarea>
+  <textarea
+    #description
+    placeholder="¿Qué sucedió hoy?"
+    [value]="entry?.text"
+  ></textarea>
 </div>
 <app-fab [faIcon]="icon" (fabClickHandler)="uploadEntry()"></app-fab>
 <img

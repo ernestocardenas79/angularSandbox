@@ -11,6 +11,7 @@ import { NoEntrySelectedComponent } from './views/no-entry-selected/no-entry-sel
 import { FabComponent } from './components/fab/fab.component';
 import { DayBookService } from './services/day-book.service';
 import { HttpClientModule } from '@angular/common/http';
+import { UploadImageService } from './services/upload-image.service';
 
 @NgModule({
   declarations: [
@@ -23,6 +24,6 @@ import { HttpClientModule } from '@angular/common/http';
     FabComponent,
   ],
   imports: [CommonModule, FontAwesomeModule, RouterModule, HttpClientModule],
-  providers: [DayBookService],
+  providers: [DayBookService, UploadImageService],
 })
 export class DaybookModule {}
