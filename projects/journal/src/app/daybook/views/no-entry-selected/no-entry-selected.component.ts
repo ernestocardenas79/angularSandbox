@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { faPlus, faUpload } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
@@ -9,7 +10,9 @@ import { faPlus, faUpload } from '@fortawesome/free-solid-svg-icons';
 export class NoEntrySelectedComponent {
   faPlus = faPlus;
 
+  constructor(private router: Router) {}
+
   addEntry() {
-    console.log('addEntry');
+    this.router.navigate(['/daybook', 'new']);
   }
 }

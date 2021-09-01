@@ -1,10 +1,18 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import {
+  Component,
+  ElementRef,
+  OnDestroy,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { faUpload } from '@fortawesome/free-solid-svg-icons';
-import { Observable, Subscription } from 'rxjs';
+import { Subscription } from 'rxjs';
+import { mergeMap } from 'rxjs/operators';
 import { getDayMonthYear } from '../../helpers/getDayMonthYear';
 import { Entry } from '../../interfaces/entry';
 import { DayBookService } from '../../services/day-book.service';
+import { UploadImageService } from '../../services/upload-image.service';
 
 @Component({
   selector: 'app-entry-view',
@@ -13,7 +21,7 @@ import { DayBookService } from '../../services/day-book.service';
 })
 export class EntryViewComponent implements OnInit, OnDestroy {
   icon = faUpload;
-  paramSubscription: Subscription;
+  paramSubscription: Subscription[] = [];
   id: string;
   entry: Entry;
   day: number;
@@ -24,28 +32,62 @@ export class EntryViewComponent implements OnInit, OnDestroy {
 
   constructor(
     private route: ActivatedRoute,
-    private daybookSrv: DayBookService
-  ) {
-    this.route.params.subscribe((params) => {
-      this.entryId = params['id'];
-    });
-  }
+    private router: Router,
+    private daybookSrv: DayBookService,
+    private uploadImageSrv: UploadImageService
+  ) {}
+
+  @ViewChild('description')
+  description: ElementRef;
 
   ngOnInit() {
-    console.log('inicializando componente');
+    const param = this.route.params.subscribe((params) => {
+      this.entryId = params['id'];
+    });
+    this.paramSubscription.push(param);
   }
 
   ngOnDestroy() {
-    this.paramSubscription.unsubscribe();
+    this.paramSubscription.forEach((s) => s.unsubscribe());
   }
 
   uploadEntry() {
-    console.log('Upload entry');
+    if (!this.entry.id) {
+      this.entry.text = this.description.nativeElement.value;
+      this.entry.picture = this.file;
+
+      this.uploadImageSrv
+        .uploadImage(this.file)
+        .pipe(
+          mergeMap((secure_url) => {
+            this.entry.picture = secure_url;
+            return this.daybookSrv.addEntry(this.entry);
+          })
+        )
+        .subscribe((r) => this.router.navigate(['/daybook', this.entry.id]));
+    } else {
+      this.entry.text = this.description.nativeElement.value;
+      this.entry.picture = this.file;
+
+      this.uploadImageSrv
+        .uploadImage(this.file)
+        .pipe(
+          mergeMap((secure_url) => {
+            this.entry.picture = secure_url;
+            return this.daybookSrv.updateEntry(this.entry);
+          })
+        )
+        .subscribe();
+    }
   }
 
   set entryId(id: string) {
     if (id === 'new') {
-      this.entry = { id: 'A', date: new Date().toDateString(), text: null };
+      this.localImage = null;
+      this.file = null;
+      this.entry = null;
+
+      this.entry = { text: null, date: new Date().getTime() };
       const { day, month, yearDay } = getDayMonthYear(new Date());
       this.day = day;
       this.month = month;
@@ -54,13 +96,16 @@ export class EntryViewComponent implements OnInit, OnDestroy {
       this.localImage = null;
       this.file = null;
       this.entry = null;
-      this.daybookSrv.getEntryById(id).subscribe((r) => {
-        const { day, month, yearDay } = getDayMonthYear(r.date);
-        this.day = day;
-        this.month = month;
-        this.yearDay = yearDay;
-        this.entry = r;
-      });
+
+      this.paramSubscription.push(
+        this.daybookSrv.getEntryById(id).subscribe((r) => {
+          const { day, month, yearDay } = getDayMonthYear(r.date);
+          this.day = day;
+          this.month = month;
+          this.yearDay = yearDay;
+          this.entry = r;
+        })
+      );
     }
   }
 
@@ -75,6 +120,11 @@ export class EntryViewComponent implements OnInit, OnDestroy {
     const fr = new FileReader();
     fr.onload = () => (this.localImage = fr.result);
     fr.readAsDataURL(file);
-    console.log(this.file, fr, 'local', this.localImage);
+  }
+
+  deleteEntry() {
+    this.daybookSrv
+      .deleteEntry(this.entry.id)
+      .subscribe((r) => this.router.navigate(['/daybook']));
   }
 }

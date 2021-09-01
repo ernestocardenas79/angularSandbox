@@ -1,6 +1,6 @@
 export interface Entry {
-  id: string;
-  date: string;
+  id?: string;
+  date: number;
   text: string;
   picture?: string;
 }
