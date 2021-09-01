@@ -2,5 +2,5 @@ export interface Entry {
   id: string;
   date: string;
   text: string;
-  picture: string;
+  picture?: string;
 }

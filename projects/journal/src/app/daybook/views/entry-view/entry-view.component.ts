@@ -19,6 +19,8 @@ export class EntryViewComponent implements OnInit, OnDestroy {
   day: number;
   month: string;
   yearDay: string;
+  localImage = null;
+  file = null;
 
   constructor(
     private route: ActivatedRoute,
@@ -42,16 +44,37 @@ export class EntryViewComponent implements OnInit, OnDestroy {
   }
 
   set entryId(id: string) {
-    this.daybookSrv.getEntryById(id).subscribe((r) => {
-      const { day, month, yearDay } = getDayMonthYear(r.date);
+    if (id === 'new') {
+      this.entry = { id: 'A', date: new Date().toDateString(), text: null };
+      const { day, month, yearDay } = getDayMonthYear(new Date());
       this.day = day;
       this.month = month;
       this.yearDay = yearDay;
-      this.entry = r;
-    });
+    } else {
+      this.localImage = null;
+      this.file = null;
+      this.entry = null;
+      this.daybookSrv.getEntryById(id).subscribe((r) => {
+        const { day, month, yearDay } = getDayMonthYear(r.date);
+        this.day = day;
+        this.month = month;
+        this.yearDay = yearDay;
+        this.entry = r;
+      });
+    }
   }
 
-  imageSelected($event) {
-    console.log('imageSelected', $event.target.files[0]);
+  onSelectedImage(event) {
+    const file = event.target.files[0];
+    if (!file) {
+      this.localImage = null;
+      this.file = null;
+      return;
+    }
+    this.file = file;
+    const fr = new FileReader();
+    fr.onload = () => (this.localImage = fr.result);
+    fr.readAsDataURL(file);
+    console.log(this.file, fr, 'local', this.localImage);
   }
 }

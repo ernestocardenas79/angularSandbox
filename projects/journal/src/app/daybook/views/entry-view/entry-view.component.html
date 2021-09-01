@@ -18,7 +18,8 @@
     style="display: none"
     #imagefile
     type="file"
-    (change)="imageSelected($event)"
+    (change)="onSelectedImage($event)"
+    accept="image/png, image/jpeg"
   />
 </div>
 <hr />
@@ -27,7 +28,14 @@
 </div>
 <app-fab [faIcon]="icon" (fabClickHandler)="uploadEntry()"></app-fab>
 <img
-  src="https://librosostenibilidad.files.wordpress.com/2017/03/paisaje-cultura-sostenibilidad-2.jpg?w=641&h=428"
+  *ngIf="entry?.picture && !localImage"
+  [src]="entry?.picture"
+  alt="entry picture"
+  class="img-thumbnail"
+/>
+<img
+  *ngIf="localImage"
+  [src]="localImage"
   alt="entry picture"
   class="img-thumbnail"
 />
