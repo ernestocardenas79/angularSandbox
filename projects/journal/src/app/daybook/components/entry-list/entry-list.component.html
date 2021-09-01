@@ -1,10 +1,12 @@
 <div class="entry-list-container">
   <div class="px-2 pt-3">
     <input
+      #searchEntry
       class="form-control mb-4"
-      type="text"
+      type="search"
       name=""
       placeholder="Buscar entrada"
+      (keyup)="search()"
     />
   </div>
   <div class="mt-2 d-flex flex-colunm">

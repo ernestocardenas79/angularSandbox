@@ -1,4 +1,9 @@
-import { Component, HostListener, Input } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  HostListener,
+  Input,
+} from '@angular/core';
 import { Router } from '@angular/router';
 import { getDayMonthYear } from '../../helpers/getDayMonthYear';
 import { Entry } from '../../interfaces/entry';
@@ -7,6 +12,7 @@ import { Entry } from '../../interfaces/entry';
   selector: 'app-entry',
   templateUrl: './entry.component.html',
   styleUrls: ['./entry.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class EntryComponent {
   id: string;

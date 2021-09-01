@@ -1,9 +1,16 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  OnDestroy,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
 import { Observable } from 'rxjs';
 import { getDayMonthYear } from '../../helpers/getDayMonthYear';
 import { Entry } from '../../interfaces/entry';
 import { DayBookService } from '../../services/day-book.service';
 import { faPlusCircle } from '@fortawesome/free-solid-svg-icons';
+import { map, throttleTime } from 'rxjs/operators';
 
 @Component({
   selector: 'app-entry-list',
@@ -17,7 +24,20 @@ export class EntryListComponent implements OnInit, OnDestroy {
   plusCircle = faPlusCircle;
 
   ngOnInit(): void {
-    this.entries$ = this.daybookSrv.loadEntries();
+    this.daybookSrv.loadEntries();
+    this.entries$ = this.daybookSrv.entries$;
+  }
+
+  @ViewChild('searchEntry')
+  searchEntry: ElementRef;
+
+  search() {
+    this.entries$ = this.daybookSrv.entries$.pipe(
+      throttleTime(300),
+      map((e) =>
+        e.filter((r) => r.text.includes(this.searchEntry.nativeElement.value))
+      )
+    );
   }
 
   ngOnDestroy(): void {}
